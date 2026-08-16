@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Makings | Bot Trading</title>
+    <meta
+      name="description"
+      content="Makings Bot Trading - Automated trading with customizable settings, stop-loss, and take-profits"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand-wrap">
+        <div class="brand-mark">M</div>
+        <div>
+          <p class="brand-name">Makings</p>
+          <small>Crypto Trading & Investment</small>
+        </div>
+      </div>
+
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="index.html#home">Home</a>
+        <a href="index.html#trade">Trade</a>
+        <a href="shop.html">Shop</a>
+        <a href="bot-trading.html">Bot Trading</a>
+        <a href="index.html#wallet">Treasury/Wallet</a>
+        <a href="index.html#create-coin">Create Coin</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a class="btn btn-ghost" href="verification.html">Login</a>
+        <a class="btn btn-primary" href="verification.html">Sign Up</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="bot-section section-shell" id="bot-trading">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Autonomous trading</span>
+            <h2>Real-time trading bot</h2>
+          </div>
+          <div class="bot-status">
+            <span class="dot"></span>
+            Bot running live
+          </div>
+        </div>
+
+        <div class="bot-layout">
+          <div class="card-glass bot-controls">
+            <h3>Bot Settings</h3>
+            
+            <label>
+              Risk level
+              <select id="riskLevel">
+                <option>Conservative</option>
+                <option selected>Balanced</option>
+                <option>Aggressive</option>
+              </select>
+            </label>
+
+            <label>
+              Strategy
+              <select id="strategy">
+                <option>Momentum</option>
+                <option>Scalp</option>
+                <option>Arbitrage</option>
+                <option>Dollar-cost averaging</option>
+              </select>
+            </label>
+
+            <label>
+              Select Coin to Trade
+              <select id="coinSelect" required>
+                <option value="">Choose a coin</option>
+                <option value="BTC">Bitcoin (BTC)</option>
+                <option value="ETH">Ethereum (ETH)</option>
+                <option value="XRP">XRP (XRP)</option>
+                <option value="SOL">Solana (SOL)</option>
+                <option value="ADA">Cardano (ADA)</option>
+                <option value="DOT">Polkadot (DOT)</option>
+                <option value="DOGE">Dogecoin (DOGE)</option>
+                <option value="USDT">Tether (USDT)</option>
+              </select>
+            </label>
+
+            <label>
+              Trading Duration
+              <select id="tradingDuration" required>
+                <option value="">Select duration</option>
+                <option value="1h">1 Hour</option>
+                <option value="4h">4 Hours</option>
+                <option value="12h">12 Hours</option>
+                <option value="24h">24 Hours</option>
+                <option value="7d">7 Days</option>
+                <option value="30d">30 Days</option>
+                <option value="continuous">Continuous</option>
+              </select>
+            </label>
+
+            <div class="risk-management">
+              <h4>Risk Management</h4>
+              
+              <label>
+                Stop-Loss (%)
+                <input type="number" id="stopLoss" placeholder="e.g., 5" min="0" max="100" step="0.1" />
+              </label>
+
+              <label>
+                Take-Profit (%)
+                <input type="number" id="takeProfit" placeholder="e.g., 10" min="0" max="500" step="0.1" />
+              </label>
+
+              <label>
+                Maximum Trade Amount ($)
+                <input type="number" id="maxTradeAmount" placeholder="e.g., 1000" min="0" step="50" />
+              </label>
+            </div>
+
+            <div class="bot-actions">
+              <button class="btn btn-primary" type="button" id="startBotBtn">Start bot</button>
+              <button class="btn btn-ghost" type="button" id="pauseBotBtn">Pause bot</button>
+            </div>
+          </div>
+
+          <div class="card-glass bot-stream">
+            <h3>Bot Configuration Summary</h3>
+            <div class="config-summary">
+              <div class="summary-item">
+                <span>Selected Coin:</span>
+                <strong id="summarycoin">None</strong>
+              </div>
+              <div class="summary-item">
+                <span>Trading Duration:</span>
+                <strong id="summaryDuration">None</strong>
+              </div>
+              <div class="summary-item">
+                <span>Stop-Loss:</span>
+                <strong id="summarySL">None</strong>
+              </div>
+              <div class="summary-item">
+                <span>Take-Profit:</span>
+                <strong id="summaryTP">None</strong>
+              </div>
+              <div class="summary-item">
+                <span>Risk Level:</span>
+                <strong id="summaryRisk">Balanced</strong>
+              </div>
+              <div class="summary-item">
+                <span>Strategy:</span>
+                <strong id="summaryStrategy">Momentum</strong>
+              </div>
+            </div>
+
+            <div class="bot-performance">
+              <h4>Bot Performance</h4>
+              <canvas id="botCanvas" width="600" height="240" aria-label="Trading bot live chart"></canvas>
+            </div>
+
+            <h4>Recent Trades</h4>
+            <ul class="trade-feed" id="tradeFeed">
+              <li>BTC buy order triggered at $66,940.</li>
+              <li>ETH breakout detected on 15m chart.</li>
+              <li>USDT hedge added for volatility protection.</li>
+              <li>SOL position closed with 8.5% profit.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="bot-info card-glass">
+          <h3>How Bot Trading Works</h3>
+          <div class="info-grid">
+            <div class="info-card">
+              <h4>1. Configure Settings</h4>
+              <p>Select your preferred coin, set your risk level, and choose a trading strategy that suits your investment goals.</p>
+            </div>
+            <div class="info-card">
+              <h4>2. Set Risk Management</h4>
+              <p>Define your stop-loss to limit losses and take-profit to secure gains. The bot will automatically close positions at these levels.</p>
+            </div>
+            <div class="info-card">
+              <h4>3. Choose Duration</h4>
+              <p>Select how long the bot should trade - from quick 1-hour sessions to continuous 24/7 automated trading.</p>
+            </div>
+            <div class="info-card">
+              <h4>4. Monitor & Adjust</h4>
+              <p>Watch your bot in real-time, receive notifications on trades, and adjust settings as market conditions change.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>© 2026 Makings | Crypto, investment, and secure digital trading.</p>
+    </footer>
+
+    <div id="toast" class="toast" aria-live="polite">Welcome to Makings Bot Trading.</div>
+
+    <script>
+      // Update configuration summary when values change
+      const coinSelect = document.getElementById('coinSelect');
+      const durationSelect = document.getElementById('tradingDuration');
+      const stopLossInput = document.getElementById('stopLoss');
+      const takeProfitInput = document.getElementById('takeProfit');
+      const riskLevel = document.getElementById('riskLevel');
+      const strategy = document.getElementById('strategy');
+
+      function updateSummary() {
+        document.getElementById('summarycion').textContent = coinSelect.value || 'None';
+        document.getElementById('summaryDuration').textContent = durationSelect.value || 'None';
+        document.getElementById('summarySL').textContent = stopLossInput.value ? stopLossInput.value + '%' : 'None';
+        document.getElementById('summaryTP').textContent = takeProfitInput.value ? takeProfitInput.value + '%' : 'None';
+        document.getElementById('summaryRisk').textContent = riskLevel.value;
+        document.getElementById('summaryStrategy').textContent = strategy.value;
+      }
+
+      coinSelect.addEventListener('change', updateSummary);
+      durationSelect.addEventListener('change', updateSummary);
+      stopLossInput.addEventListener('input', updateSummary);
+      takeProfitInput.addEventListener('input', updateSummary);
+      riskLevel.addEventListener('change', updateSummary);
+      strategy.addEventListener('change', updateSummary);
+
+      // Bot control buttons
+      document.getElementById('startBotBtn').addEventListener('click', function() {
+        if (!coinSelect.value || !durationSelect.value) {
+          alert('Please select a coin and trading duration');
+          return;
+        }
+        alert('Bot started with selected settings!');
+        this.disabled = true;
+        document.getElementById('pauseBotBtn').disabled = false;
+      });
+
+      document.getElementById('pauseBotBtn').addEventListener('click', function() {
+        alert('Bot paused');
+        this.disabled = true;
+        document.getElementById('startBotBtn').disabled = false;
+      });
+    </script>
+    <script src="script.js"></script>
+  </body>
+</html>
