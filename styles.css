@@ -196,10 +196,14 @@ section {
 /* Hero Section */
 .hero {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1.2fr;
   gap: 3rem;
-  align-items: center;
+  align-items: flex-start;
   margin: 4rem 0;
+}
+
+.hero-copy {
+  padding-top: 2rem;
 }
 
 .hero-copy h1 {
@@ -770,6 +774,174 @@ canvas {
   font-style: normal;
 }
 
+.coin-info {
+  margin-top: 3rem;
+}
+
+.coin-info h3 {
+  color: var(--primary-gold);
+  margin-bottom: 2rem;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.info-card {
+  background: rgba(212, 175, 55, 0.05);
+  border: 1px solid var(--primary-gold);
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.info-card h4 {
+  color: var(--primary-gold);
+  margin-bottom: 1rem;
+}
+
+.info-card p {
+  color: var(--light-gold);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.coin-benefits {
+  margin-top: 3rem;
+}
+
+.coin-benefits h3 {
+  color: var(--primary-gold);
+  margin-bottom: 2rem;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+}
+
+.benefit-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1.5rem;
+  background: rgba(212, 175, 55, 0.05);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 8px;
+}
+
+.benefit-icon {
+  font-size: 32px;
+  margin-bottom: 1rem;
+}
+
+.benefit-item h4 {
+  color: var(--primary-gold);
+  margin-bottom: 0.5rem;
+}
+
+.benefit-item p {
+  color: var(--light-gold);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.security-features {
+  margin-top: 3rem;
+}
+
+.security-features h3 {
+  color: var(--primary-gold);
+  margin-bottom: 2rem;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+}
+
+.feature-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1.5rem;
+  background: rgba(212, 175, 55, 0.05);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 8px;
+}
+
+.feature-icon {
+  font-size: 32px;
+  margin-bottom: 1rem;
+}
+
+.feature-item h4 {
+  color: var(--primary-gold);
+  margin-bottom: 0.5rem;
+}
+
+.feature-item p {
+  color: var(--light-gold);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.wallet-guide {
+  margin-top: 3rem;
+}
+
+.wallet-guide h3 {
+  color: var(--primary-gold);
+  margin-bottom: 2rem;
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1.5rem;
+  background: rgba(212, 175, 55, 0.05);
+  border: 1px solid var(--primary-gold);
+  border-radius: 8px;
+}
+
+.step-number {
+  width: 40px;
+  height: 40px;
+  background: var(--primary-gold);
+  color: var(--black);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 1rem;
+}
+
+.step h4 {
+  color: var(--primary-gold);
+  margin-bottom: 0.5rem;
+}
+
+.step p {
+  color: var(--light-gold);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
 /* News Section */
 .news-grid {
   display: grid;
@@ -888,7 +1060,7 @@ canvas {
 /* TradingView Widget */
 .tradingview-widget-container {
   width: 100%;
-  height: 600px;
+  height: 800px;
   margin-top: 1.5rem;
 }
 

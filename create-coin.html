@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Makings | Create Your Own Coin</title>
+    <meta
+      name="description"
+      content="Create your own cryptocurrency coin on Makings marketplace - Easy coin creation and publishing"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand-wrap">
+        <div class="brand-mark">M</div>
+        <div>
+          <p class="brand-name">Makings</p>
+          <small>Crypto Trading & Investment</small>
+        </div>
+      </div>
+
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="index.html#home">Home</a>
+        <a href="index.html#trade">Trade</a>
+        <a href="shop.html">Shop</a>
+        <a href="bot-trading.html">Bot Trading</a>
+        <a href="index.html#wallet">Treasury/Wallet</a>
+        <a href="create-coin.html">Create Coin</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a class="btn btn-ghost" href="verification.html">Login</a>
+        <a class="btn btn-primary" href="verification.html">Sign Up</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="coin-section section-shell" id="create-coin">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Custom markets</span>
+            <h2>Create your own coin</h2>
+          </div>
+        </div>
+
+        <div class="coin-layout">
+          <form class="card-glass coin-form" id="coinForm">
+            <label>
+              Coin name
+              <input type="text" placeholder="e.g. Kings Gold" required />
+            </label>
+            <label>
+              Coin symbol
+              <input type="text" placeholder="KGD" required />
+            </label>
+            <label>
+              Website link
+              <input type="url" placeholder="https://example.com" required />
+            </label>
+            <label>
+              Upload coin image (optional)
+              <input type="file" accept="image/*" />
+            </label>
+            <label>
+              Publish fee
+              <input type="number" min="50" value="150" />
+            </label>
+            <button class="btn btn-primary" type="submit">Publish to market</button>
+          </form>
+
+          <div class="card-glass custom-coin-list">
+            <h3>Recently created coins</h3>
+            <ul id="customCoinList">
+              <li><span>King's Gold</span><em>+8.4%</em></li>
+              <li><span>Carib Mint</span><em>+4.6%</em></li>
+              <li><span>Blue Horizon</span><em>+2.1%</em></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="coin-info card-glass">
+          <h3>How to Create Your Coin</h3>
+          <div class="info-grid">
+            <div class="info-card">
+              <h4>1. Enter Coin Details</h4>
+              <p>Choose a unique name, symbol, and website URL for your cryptocurrency. This information will be displayed on the marketplace.</p>
+            </div>
+            <div class="info-card">
+              <h4>2. Upload Coin Image</h4>
+              <p>Add a professional logo or icon for your coin. This helps users identify and remember your coin in the marketplace.</p>
+            </div>
+            <div class="info-card">
+              <h4>3. Set Publishing Fee</h4>
+              <p>Decide your coin's publishing fee. This is the cost for listing your coin on the Makings marketplace.</p>
+            </div>
+            <div class="info-card">
+              <h4>4. Publish to Market</h4>
+              <p>Submit your coin to the marketplace. Once published, traders can buy, sell, and trade your coin on Makings.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="coin-benefits card-glass">
+          <h3>Benefits of Creating Your Coin</h3>
+          <div class="benefits-grid">
+            <div class="benefit-item">
+              <span class="benefit-icon">🚀</span>
+              <h4>Global Reach</h4>
+              <p>Access to millions of traders on the Makings platform worldwide.</p>
+            </div>
+            <div class="benefit-item">
+              <span class="benefit-icon">💰</span>
+              <h4>Monetization</h4>
+              <p>Earn from your coin's trading volume and market performance.</p>
+            </div>
+            <div class="benefit-item">
+              <span class="benefit-icon">📊</span>
+              <h4>Live Analytics</h4>
+              <p>Track your coin's performance with real-time charts and statistics.</p>
+            </div>
+            <div class="benefit-item">
+              <span class="benefit-icon">🔒</span>
+              <h4>Secure Platform</h4>
+              <p>Your coin is protected by Makings' enterprise-grade security infrastructure.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>© 2026 Makings | Crypto, investment, and secure digital trading.</p>
+    </footer>
+
+    <div id="toast" class="toast" aria-live="polite">Coin published successfully!</div>
+
+    <script>
+      document.getElementById('coinForm').addEventListener('submit', (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const coinName = formData.get('coinName') || 'Your coin';
+        
+        // Show success message
+        const toast = document.getElementById('toast');
+        toast.textContent = coinName + ' published to market successfully!';
+        toast.classList.add('show');
+        
+        setTimeout(() => toast.classList.remove('show'), 5000);
+        
+        // Reset form
+        event.target.reset();
+      });
+    </script>
+    <script src="script.js"></script>
+  </body>
+</html>

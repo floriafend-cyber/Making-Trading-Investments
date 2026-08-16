@@ -570,7 +570,14 @@
 
         const user = Object.fromEntries(formData.entries());
         localStorage.setItem('makingsVerificationUser', JSON.stringify(user));
-        showToast('Account saved successfully. Welcome to Makings.');
+        localStorage.setItem('makingsUserLoggedIn', 'true');
+        showToast('Account created successfully. Welcome to Makings.');
+        
+        // Redirect to trade section after 1.5 seconds
+        setTimeout(() => {
+          window.location.href = 'index.html#trade';
+        }, 1500);
+        
         event.target.reset();
       });
 
@@ -590,7 +597,13 @@
         const validPassword = password === savedUser.password;
 
         if (validUser && validPassword) {
+          localStorage.setItem('makingsUserLoggedIn', 'true');
           showToast('Login successful. Welcome back.');
+          
+          // Redirect to trade section after 1.5 seconds
+          setTimeout(() => {
+            window.location.href = 'index.html#trade';
+          }, 1500);
         } else {
           showToast('Username/email or password is incorrect.');
         }
