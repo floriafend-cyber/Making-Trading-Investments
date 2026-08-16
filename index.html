@@ -36,8 +36,8 @@
       </nav>
 
       <div class="nav-actions">
-        <button class="btn btn-ghost" data-open-auth>Login</button>
-        <button class="btn btn-primary" data-open-auth>Sign Up</button>
+        <a class="btn btn-ghost" href="verification.html">Login</a>
+        <a class="btn btn-primary" href="verification.html">Sign Up</a>
       </div>
     </header>
 
@@ -52,7 +52,7 @@
           </p>
 
           <div class="hero-actions">
-            <button class="btn btn-primary" data-open-auth>Create Account</button>
+            <a class="btn btn-primary" href="verification.html">Create Account</a>
             <a class="btn btn-secondary" href="#trade">Explore Markets</a>
           </div>
 
@@ -367,203 +367,7 @@
         </div>
       </section>
 
-      <section class="shop-section section-shell" id="shop">
-        <div class="section-head">
-          <div>
-            <span class="eyebrow">Marketplace</span>
-            <h2>Buy and sell digital and physical items</h2>
-          </div>
-        </div>
 
-        <div class="shop-grid">
-          <article class="product-card card-glass">
-            <div class="product-icon">⛏️</div>
-            <h3>Bitcoin miners</h3>
-            <p>High-performance mining hardware and accessories.</p>
-            <button class="btn btn-primary">Buy</button>
-          </article>
-          <article class="product-card card-glass">
-            <div class="product-icon">🎮</div>
-            <h3>Gaming gear</h3>
-            <p>Consoles, accessories, and digital entertainment packages.</p>
-            <button class="btn btn-primary">Buy</button>
-          </article>
-          <article class="product-card card-glass">
-            <div class="product-icon">📱</div>
-            <h3>Phones</h3>
-            <p>Mobile devices, upgrades, and premium hardware bundles.</p>
-            <button class="btn btn-primary">Buy</button>
-          </article>
-          <article class="product-card card-glass">
-            <div class="product-icon">💻</div>
-            <h3>Laptops & computers</h3>
-            <p>Workstations for trading, content creation, and gaming.</p>
-            <button class="btn btn-primary">Buy</button>
-          </article>
-          <article class="product-card card-glass">
-            <div class="product-icon">📟</div>
-            <h3>Tablets</h3>
-            <p>Portable productivity and entertainment devices.</p>
-            <button class="btn btn-primary">Buy</button>
-          </article>
-          <article class="product-card card-glass">
-            <div class="product-icon">🎁</div>
-            <h3>Gift cards</h3>
-            <p>Digital vouchers and branded store credits.</p>
-            <button class="btn btn-primary">Buy</button>
-          </article>
-        </div>
-
-        <div class="sell-request card-glass">
-          <h3>Sell an item through Makings</h3>
-          <form id="sellForm">
-            <label>
-              Item name
-              <input type="text" placeholder="Bitcoin miner, phone, laptop..." required />
-            </label>
-            <label>
-              Price
-              <input type="number" min="1" placeholder="1500" required />
-            </label>
-            <label>
-              Contact email
-              <input type="email" placeholder="you@example.com" required />
-            </label>
-            <button class="btn btn-primary" type="submit">Send Request</button>
-          </form>
-          <p class="note">Requests are confirmed by email at andrewscott7677@gmail.com.</p>
-        </div>
-      </section>
-
-      <section class="security-section section-shell" id="security">
-        <div class="section-head">
-          <div>
-            <span class="eyebrow">Security</span>
-            <h2>Protected identity and onboarding</h2>
-          </div>
-        </div>
-
-        <div class="security-layout">
-          <div class="card-glass login-card">
-            <h3>Login</h3>
-            <form id="loginForm">
-              <label>
-                Username or email
-                <input type="text" placeholder="username or email" required />
-              </label>
-              <label>
-                Password
-                <input type="password" placeholder="••••••••" required />
-              </label>
-              <button class="btn btn-primary" type="submit">Login</button>
-            </form>
-          </div>
-
-          <div class="card-glass signup-card">
-            <h3>Create account</h3>
-            <form id="signupForm">
-              <div class="form-grid">
-                <label>
-                  First Name
-                  <input type="text" name="firstName" placeholder="First Name" required />
-                </label>
-                <label>
-                  Last Name
-                  <input type="text" name="lastName" placeholder="Last Name" required />
-                </label>
-                <label>
-                  Email
-                  <input type="email" name="email" placeholder="you@example.com" required />
-                </label>
-                <label>
-                  Phone Number
-                  <input type="tel" name="phone" placeholder="+1 876 555 0198" required />
-                </label>
-                <label>
-                  Username ID
-                  <input type="text" name="username" placeholder="usernameID" required />
-                </label>
-                <label>
-                  New Password
-                  <input type="password" name="password" placeholder="New Password" required />
-                </label>
-                <label>
-                  Confirm Password
-                  <input type="password" name="confirmPassword" placeholder="Confirm Password" required />
-                </label>
-                <label>
-                  Date of Birth
-                  <input type="date" name="dob" required />
-                </label>
-                <label class="full-width">
-                  Country of Birth
-                  <select name="countryBirth" required>
-                    <option value="">Select country</option>
-                    <option>Anguilla</option>
-                    <option>Antigua and Barbuda</option>
-                    <option>The Bahamas</option>
-                    <option>Barbados</option>
-                    <option>Belize</option>
-                    <option>Bermuda</option>
-                    <option>British Virgin Islands</option>
-                    <option>Cayman Islands</option>
-                    <option>Cuba</option>
-                    <option>Dominica</option>
-                    <option>Dominican Republic</option>
-                    <option>Grenada</option>
-                    <option>Guadeloupe</option>
-                    <option>Haiti</option>
-                    <option>Jamaica</option>
-                    <option>Martinique</option>
-                    <option>Montserrat</option>
-                    <option>Puerto Rico</option>
-                    <option>Saint Kitts and Nevis</option>
-                    <option>Saint Lucia</option>
-                    <option>Saint Vincent and the Grenadines</option>
-                    <option>Trinidad and Tobago</option>
-                    <option>Turks and Caicos Islands</option>
-                    <option>U.S. Virgin Islands</option>
-                  </select>
-                </label>
-              </div>
-
-              <div class="verify-box">
-                <h4>Verification and fraud prevention</h4>
-                <p>We protect against fraud and identity theft. You must verify your account before trade approval.</p>
-                <div class="verification-actions">
-                  <button class="btn btn-ghost" type="button" id="sendEmailVerify">Send email verification</button>
-                  <button class="btn btn-ghost" type="button" id="sendPhoneVerify">Send phone verification</button>
-                </div>
-              </div>
-
-              <div class="identity-verify">
-                <h4>Identity verification</h4>
-                <div class="upload-options">
-                  <label><input type="radio" name="idType" value="Passport" /> Passport</label>
-                  <label><input type="radio" name="idType" value="National ID" /> National ID / State ID</label>
-                  <label><input type="radio" name="idType" value="Drivers License" /> Driver's License</label>
-                  <label><input type="radio" name="idType" value="TRN or SSN" /> TRN / SSN</label>
-                </div>
-                <label>
-                  Upload photo of ID
-                  <input type="file" accept="image/*" />
-                </label>
-                <label>
-                  Take selfie for identity match
-                  <input type="file" accept="image/*" capture="user" />
-                </label>
-              </div>
-
-              <label class="terms">
-                <input type="checkbox" required />
-                I agree to the Terms & Conditions and understand the verification process to prevent fraud and identity theft.
-              </label>
-
-              <button class="btn btn-primary" type="submit">Create account</button>
-            </form>
-          </div>
-        </div>
-      </section>
     </main>
 
     <footer class="site-footer">
