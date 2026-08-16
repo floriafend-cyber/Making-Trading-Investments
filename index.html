@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Makings | Crypto Trading & Investment</title>
+    <meta
+      name="description"
+      content="Makings is a crypto trading and investment platform with secure onboarding, wallet protection, live markets, bot trading, custom coin creation, and a marketplace."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand-wrap">
+        <div class="brand-mark">M</div>
+        <div>
+          <p class="brand-name">Makings</p>
+          <small>Crypto Trading & Investment</small>
+        </div>
+      </div>
+
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="#home">Home</a>
+        <a href="#trade">Trade</a>
+        <a href="#shop">Shop</a>
+        <a href="#bot-trading">Bot Trading</a>
+        <a href="#wallet">Treasury/Wallet</a>
+        <a href="#create-coin">Create Coin</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="btn btn-ghost" data-open-auth>Login</button>
+        <button class="btn btn-primary" data-open-auth>Sign Up</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="home">
+        <div class="hero-copy">
+          <span class="eyebrow">Secure digital wealth economy</span>
+          <h1>Trade the world’s top crypto, companies, and assets with confidence.</h1>
+          <p>
+            Makings gives you a secure wallet, real-time market intelligence, automated bots,
+            custom coin publishing, and a marketplace for crypto goods and digital assets.
+          </p>
+
+          <div class="hero-actions">
+            <button class="btn btn-primary" data-open-auth>Create Account</button>
+            <a class="btn btn-secondary" href="#trade">Explore Markets</a>
+          </div>
+
+          <div class="hero-stats">
+            <div>
+              <strong>$4.6T</strong>
+              <span>Global market cap</span>
+            </div>
+            <div>
+              <strong>1.8M</strong>
+              <span>Daily executions</span>
+            </div>
+            <div>
+              <strong>24/7</strong>
+              <span>Bot trading</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-panel card-glass">
+          <div class="market-label-row">
+            <h3>Live Market Overview</h3>
+            <label>
+              <span>Country</span>
+              <select id="countrySelect" aria-label="Select your country"></select>
+            </label>
+          </div>
+
+          <div class="mini-portfolio">
+            <div>
+              <span>Portfolio Balance</span>
+              <strong>$184,250.64</strong>
+            </div>
+            <div class="trend-up">+12.48%</div>
+          </div>
+
+          <canvas id="heroChart" width="520" height="220" aria-label="Live market chart"></canvas>
+        </div>
+      </section>
+
+      <section class="market-section section-shell">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Live assets</span>
+            <h2>Crypto, stocks, commodities, and brand markets</h2>
+          </div>
+          <button class="btn btn-ghost">View all</button>
+        </div>
+
+        <div class="asset-grid" id="assetGrid"></div>
+
+        <div class="market-chart-wrap card-glass">
+          <div class="chart-header">
+            <div>
+              <span class="eyebrow">Watchlist</span>
+              <h3 id="marketChartTitle">BTC / USD live market</h3>
+            </div>
+            <div class="chart-toggle">
+              <button class="is-active" data-chart-symbol="BTC">BTC</button>
+              <button data-chart-symbol="ETH">ETH</button>
+              <button data-chart-symbol="XRP">XRP</button>
+              <button data-chart-symbol="SOL">SOL</button>
+            </div>
+          </div>
+          <canvas id="marketCanvas" width="1200" height="360" aria-label="Detailed market chart"></canvas>
+        </div>
+      </section>
+
+      <section class="trade-section section-shell" id="trade">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Trade center</span>
+            <h2>Investment options and secure funding</h2>
+          </div>
+        </div>
+
+        <div class="trade-layout">
+          <div class="card-glass trading-box">
+            <h3>Deposit to start trading</h3>
+            <p>
+              Before starting trading, funds must be deposited into your account/wallet first.
+            </p>
+            <form class="mini-form" id="depositForm">
+              <label>
+                Deposit amount
+                <input type="number" min="50" step="10" value="2500" />
+              </label>
+              <label>
+                Funding source
+                <select>
+                  <option>Bank account</option>
+                  <option>Wallet vault</option>
+                  <option>Credit card</option>
+                  <option>Wire transfer</option>
+                </select>
+              </label>
+              <button class="btn btn-primary" type="submit">Deposit funds</button>
+            </form>
+
+            <div class="account-balance">
+              <span>Available balance</span>
+              <strong>$184,250.64</strong>
+            </div>
+          </div>
+
+          <div class="card-glass trading-box">
+            <h3>Buy or sell</h3>
+            <form class="mini-form" id="tradeForm">
+              <label>
+                Asset
+                <select>
+                  <option>Bitcoin (BTC)</option>
+                  <option>Ethereum (ETH)</option>
+                  <option>XRP (XRP)</option>
+                  <option>BNB (BNB)</option>
+                  <option>Solana (SOL)</option>
+                  <option>Tether (USDT)</option>
+                </select>
+              </label>
+              <label>
+                Trade type
+                <select>
+                  <option>Buy</option>
+                  <option>Sell</option>
+                </select>
+              </label>
+              <label>
+                Amount
+                <input type="number" min="0.01" step="0.01" value="0.75" />
+              </label>
+              <button class="btn btn-primary" type="submit">Execute trade</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="investment-options">
+          <h3>Investment options</h3>
+          <div class="option-grid">
+            <span>Crypto growth</span>
+            <span>Long-term holdings</span>
+            <span>Staking</span>
+            <span>Portfolio rebalancing</span>
+            <span>Index tracking</span>
+            <span>Daily picks</span>
+            <span>Income funds</span>
+            <span>Market futures</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="bot-section section-shell" id="bot-trading">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Autonomous trading</span>
+            <h2>Real-time trading bot</h2>
+          </div>
+          <div class="bot-status">
+            <span class="dot"></span>
+            Bot running live
+          </div>
+        </div>
+
+        <div class="bot-layout">
+          <div class="card-glass bot-controls">
+            <h3>Bot settings</h3>
+            <label>
+              Risk level
+              <select>
+                <option>Conservative</option>
+                <option selected>Balanced</option>
+                <option>Aggressive</option>
+              </select>
+            </label>
+            <label>
+              Strategy
+              <select>
+                <option>Momentum</option>
+                <option>Scalp</option>
+                <option>Arbitrage</option>
+                <option>Dollar-cost averaging</option>
+              </select>
+            </label>
+            <div class="bot-actions">
+              <button class="btn btn-primary" type="button">Start bot</button>
+              <button class="btn btn-ghost" type="button">Pause bot</button>
+            </div>
+          </div>
+
+          <div class="card-glass bot-stream">
+            <h3>Bot execution stream</h3>
+            <canvas id="botCanvas" width="600" height="240" aria-label="Trading bot live chart"></canvas>
+            <ul class="trade-feed" id="tradeFeed">
+              <li>BTC buy order triggered at $66,940.</li>
+              <li>ETH breakout detected on 15m chart.</li>
+              <li>USDT hedge added for volatility protection.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="wallet-section section-shell" id="wallet">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Treasury</span>
+            <h2>Bank vault and payment controls</h2>
+          </div>
+        </div>
+
+        <div class="wallet-grid">
+          <div class="wallet-card card-glass"><h3>Deposit</h3><p>Fund your wallet from local bank or crypto transfer.</p></div>
+          <div class="wallet-card card-glass"><h3>Withdraw</h3><p>Send funds securely to any approved bank account.</p></div>
+          <div class="wallet-card card-glass"><h3>Transfer</h3><p>Move funds between wallets and trading accounts instantly.</p></div>
+          <div class="wallet-card card-glass"><h3>Send</h3><p>Send crypto or cash to contacts and beneficiaries.</p></div>
+          <div class="wallet-card card-glass"><h3>Pay Bills</h3><p>Utility bills, electricity, data, and services.</p></div>
+          <div class="wallet-card card-glass"><h3>Insurance</h3><p>Car insurance, home insurance, and protected payments.</p></div>
+          <div class="wallet-card card-glass"><h3>Mortgage</h3><p>Pay property mortgage and recurring amortization plans.</p></div>
+          <div class="wallet-card card-glass"><h3>Vault</h3><p>Store funds in a protected banking vault before execution.</p></div>
+        </div>
+
+        <div class="banks-panel card-glass">
+          <h3>Caribbean banking partners</h3>
+          <div class="bank-list">
+            <span>Bank of Jamaica</span>
+            <span>Scotiabank Caribbean</span>
+            <span>FirstCaribbean</span>
+            <span>National Commercial Bank</span>
+            <span>CIBC Caribbean</span>
+            <span>RBC Caribbean</span>
+            <span>NCB</span>
+            <span>Republic Bank</span>
+            <span>JMMB</span>
+            <span>GraceKennedy Financial</span>
+            <span>Bank of the Bahamas</span>
+            <span>Barbados National Bank</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="coin-section section-shell" id="create-coin">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Custom markets</span>
+            <h2>Create your own coin</h2>
+          </div>
+        </div>
+
+        <div class="coin-layout">
+          <form class="card-glass coin-form" id="coinForm">
+            <label>
+              Coin name
+              <input type="text" placeholder="e.g. Kings Gold" required />
+            </label>
+            <label>
+              Coin symbol
+              <input type="text" placeholder="KGD" required />
+            </label>
+            <label>
+              Website link
+              <input type="url" placeholder="https://example.com" required />
+            </label>
+            <label>
+              Upload coin image (optional)
+              <input type="file" accept="image/*" />
+            </label>
+            <label>
+              Publish fee
+              <input type="number" min="50" value="150" />
+            </label>
+            <button class="btn btn-primary" type="submit">Publish to market</button>
+          </form>
+
+          <div class="card-glass custom-coin-list">
+            <h3>Recently created coins</h3>
+            <ul id="customCoinList">
+              <li><span>King's Gold</span><em>+8.4%</em></li>
+              <li><span>Carib Mint</span><em>+4.6%</em></li>
+              <li><span>Blue Horizon</span><em>+2.1%</em></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="news-section section-shell">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Market news</span>
+            <h2>Crypto and company market updates</h2>
+          </div>
+        </div>
+
+        <div class="news-grid">
+          <article class="news-card card-glass">
+            <span class="tag">Crypto</span>
+            <h3>Bitcoin demand surges as ETFs fund inflow remains strong.</h3>
+            <p>Large institutional buyers continue to accumulate BTC across major exchanges and treasury desks.</p>
+          </article>
+          <article class="news-card card-glass">
+            <span class="tag">Stocks</span>
+            <h3>Nasdaq momentum keeps Tesla and Apple active in high-volume trading.</h3>
+            <p>Tech stocks continue to drive sentiment while commodity names stay steady on supply concerns.</p>
+          </article>
+          <article class="news-card card-glass">
+            <span class="tag">Commodities</span>
+            <h3>Oil, gold, and copper attract safe-haven traders amid global volatility.</h3>
+            <p>Investors rotate into hard assets as inflation and rate expectations continue to shift.</p>
+          </article>
+          <article class="news-card card-glass">
+            <span class="tag">Consumer</span>
+            <h3>Wendy’s, McDonald’s, KFC, and Burger King remain market bellwethers.</h3>
+            <p>Food-service stocks remain highly watched as margins and consumer demand recover regionally.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="shop-section section-shell" id="shop">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Marketplace</span>
+            <h2>Buy and sell digital and physical items</h2>
+          </div>
+        </div>
+
+        <div class="shop-grid">
+          <article class="product-card card-glass">
+            <div class="product-icon">⛏️</div>
+            <h3>Bitcoin miners</h3>
+            <p>High-performance mining hardware and accessories.</p>
+            <button class="btn btn-primary">Buy</button>
+          </article>
+          <article class="product-card card-glass">
+            <div class="product-icon">🎮</div>
+            <h3>Gaming gear</h3>
+            <p>Consoles, accessories, and digital entertainment packages.</p>
+            <button class="btn btn-primary">Buy</button>
+          </article>
+          <article class="product-card card-glass">
+            <div class="product-icon">📱</div>
+            <h3>Phones</h3>
+            <p>Mobile devices, upgrades, and premium hardware bundles.</p>
+            <button class="btn btn-primary">Buy</button>
+          </article>
+          <article class="product-card card-glass">
+            <div class="product-icon">💻</div>
+            <h3>Laptops & computers</h3>
+            <p>Workstations for trading, content creation, and gaming.</p>
+            <button class="btn btn-primary">Buy</button>
+          </article>
+          <article class="product-card card-glass">
+            <div class="product-icon">📟</div>
+            <h3>Tablets</h3>
+            <p>Portable productivity and entertainment devices.</p>
+            <button class="btn btn-primary">Buy</button>
+          </article>
+          <article class="product-card card-glass">
+            <div class="product-icon">🎁</div>
+            <h3>Gift cards</h3>
+            <p>Digital vouchers and branded store credits.</p>
+            <button class="btn btn-primary">Buy</button>
+          </article>
+        </div>
+
+        <div class="sell-request card-glass">
+          <h3>Sell an item through Makings</h3>
+          <form id="sellForm">
+            <label>
+              Item name
+              <input type="text" placeholder="Bitcoin miner, phone, laptop..." required />
+            </label>
+            <label>
+              Price
+              <input type="number" min="1" placeholder="1500" required />
+            </label>
+            <label>
+              Contact email
+              <input type="email" placeholder="you@example.com" required />
+            </label>
+            <button class="btn btn-primary" type="submit">Send Request</button>
+          </form>
+          <p class="note">Requests are confirmed by email at andrewscott7677@gmail.com.</p>
+        </div>
+      </section>
+
+      <section class="security-section section-shell" id="security">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Security</span>
+            <h2>Protected identity and onboarding</h2>
+          </div>
+        </div>
+
+        <div class="security-layout">
+          <div class="card-glass login-card">
+            <h3>Login</h3>
+            <form id="loginForm">
+              <label>
+                Username or email
+                <input type="text" placeholder="username or email" required />
+              </label>
+              <label>
+                Password
+                <input type="password" placeholder="••••••••" required />
+              </label>
+              <button class="btn btn-primary" type="submit">Login</button>
+            </form>
+          </div>
+
+          <div class="card-glass signup-card">
+            <h3>Create account</h3>
+            <form id="signupForm">
+              <div class="form-grid">
+                <label>
+                  First Name
+                  <input type="text" name="firstName" placeholder="First Name" required />
+                </label>
+                <label>
+                  Last Name
+                  <input type="text" name="lastName" placeholder="Last Name" required />
+                </label>
+                <label>
+                  Email
+                  <input type="email" name="email" placeholder="you@example.com" required />
+                </label>
+                <label>
+                  Phone Number
+                  <input type="tel" name="phone" placeholder="+1 876 555 0198" required />
+                </label>
+                <label>
+                  Username ID
+                  <input type="text" name="username" placeholder="usernameID" required />
+                </label>
+                <label>
+                  New Password
+                  <input type="password" name="password" placeholder="New Password" required />
+                </label>
+                <label>
+                  Confirm Password
+                  <input type="password" name="confirmPassword" placeholder="Confirm Password" required />
+                </label>
+                <label>
+                  Date of Birth
+                  <input type="date" name="dob" required />
+                </label>
+                <label class="full-width">
+                  Country of Birth
+                  <select name="countryBirth" required>
+                    <option value="">Select country</option>
+                    <option>Anguilla</option>
+                    <option>Antigua and Barbuda</option>
+                    <option>The Bahamas</option>
+                    <option>Barbados</option>
+                    <option>Belize</option>
+                    <option>Bermuda</option>
+                    <option>British Virgin Islands</option>
+                    <option>Cayman Islands</option>
+                    <option>Cuba</option>
+                    <option>Dominica</option>
+                    <option>Dominican Republic</option>
+                    <option>Grenada</option>
+                    <option>Guadeloupe</option>
+                    <option>Haiti</option>
+                    <option>Jamaica</option>
+                    <option>Martinique</option>
+                    <option>Montserrat</option>
+                    <option>Puerto Rico</option>
+                    <option>Saint Kitts and Nevis</option>
+                    <option>Saint Lucia</option>
+                    <option>Saint Vincent and the Grenadines</option>
+                    <option>Trinidad and Tobago</option>
+                    <option>Turks and Caicos Islands</option>
+                    <option>U.S. Virgin Islands</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="verify-box">
+                <h4>Verification and fraud prevention</h4>
+                <p>We protect against fraud and identity theft. You must verify your account before trade approval.</p>
+                <div class="verification-actions">
+                  <button class="btn btn-ghost" type="button" id="sendEmailVerify">Send email verification</button>
+                  <button class="btn btn-ghost" type="button" id="sendPhoneVerify">Send phone verification</button>
+                </div>
+              </div>
+
+              <div class="identity-verify">
+                <h4>Identity verification</h4>
+                <div class="upload-options">
+                  <label><input type="radio" name="idType" value="Passport" /> Passport</label>
+                  <label><input type="radio" name="idType" value="National ID" /> National ID / State ID</label>
+                  <label><input type="radio" name="idType" value="Drivers License" /> Driver's License</label>
+                  <label><input type="radio" name="idType" value="TRN or SSN" /> TRN / SSN</label>
+                </div>
+                <label>
+                  Upload photo of ID
+                  <input type="file" accept="image/*" />
+                </label>
+                <label>
+                  Take selfie for identity match
+                  <input type="file" accept="image/*" capture="user" />
+                </label>
+              </div>
+
+              <label class="terms">
+                <input type="checkbox" required />
+                I agree to the Terms & Conditions and understand the verification process to prevent fraud and identity theft.
+              </label>
+
+              <button class="btn btn-primary" type="submit">Create account</button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>© 2026 Makings | Crypto, investment, and secure digital trading.</p>
+    </footer>
+
+    <div id="toast" class="toast" aria-live="polite">To Our Kings & Queen In The Making Welcome.</div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
