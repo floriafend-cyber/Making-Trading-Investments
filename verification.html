@@ -261,6 +261,21 @@
         padding: 18px;
       }
 
+      .signup-step {
+        display: none;
+      }
+
+      .signup-step.active {
+        display: block;
+      }
+
+      .step-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        margin-top: 20px;
+      }
+
       .verify-box h3,
       .identity-box h3,
       .terms-box h3 {
@@ -382,11 +397,11 @@
 
         <section class="form-panel">
           <div class="auth-tabs">
-            <button id="loginTab" class="active" type="button">Login</button>
-            <button id="signupTab" type="button">Sign Up</button>
+            <button id="loginTab" type="button">Login</button>
+            <button id="signupTab" class="active" type="button">Sign Up</button>
           </div>
 
-          <div id="loginBox" class="auth-box active">
+          <div id="loginBox" class="auth-box">
             <form id="loginForm">
               <label>
                 Username or email
@@ -400,113 +415,138 @@
             </form>
           </div>
 
-          <div id="signupBox" class="auth-box">
+          <div id="signupBox" class="auth-box active">
             <form id="signupForm">
-              <div class="form-grid">
-                <label>
-                  First Name
-                  <input type="text" name="firstName" placeholder="First Name" required />
-                </label>
-                <label>
-                  Last Name
-                  <input type="text" name="lastName" placeholder="Last Name" required />
-                </label>
-                <label>
-                  Email
-                  <input type="email" name="email" placeholder="you@example.com" required />
-                </label>
-                <label>
-                  Phone Number
-                  <input type="tel" name="phone" placeholder="+1 876 555 0198" required />
-                </label>
-                <label>
-                  Username ID
-                  <input type="text" name="username" placeholder="usernameID" required />
-                </label>
-                <label>
-                  New Password
-                  <input type="password" name="password" placeholder="New Password" required />
-                </label>
-                <label>
-                  Confirm Password
-                  <input type="password" name="confirmPassword" placeholder="Confirm Password" required />
-                </label>
-                <label>
-                  Date of Birth
-                  <input type="date" name="dob" required />
-                </label>
-                <label class="full-width">
-                  Country of Birth
-                  <select name="countryBirth" required>
-                    <option value="">Select country</option>
-                    <option>Anguilla</option>
-                    <option>Antigua and Barbuda</option>
-                    <option>The Bahamas</option>
-                    <option>Barbados</option>
-                    <option>Belize</option>
-                    <option>Bermuda</option>
-                    <option>British Virgin Islands</option>
-                    <option>Cayman Islands</option>
-                    <option>Cuba</option>
-                    <option>Dominica</option>
-                    <option>Dominican Republic</option>
-                    <option>Grenada</option>
-                    <option>Guadeloupe</option>
-                    <option>Haiti</option>
-                    <option>Jamaica</option>
-                    <option>Martinique</option>
-                    <option>Montserrat</option>
-                    <option>Puerto Rico</option>
-                    <option>Saint Kitts and Nevis</option>
-                    <option>Saint Lucia</option>
-                    <option>Saint Vincent and the Grenadines</option>
-                    <option>Trinidad and Tobago</option>
-                    <option>Turks and Caicos Islands</option>
-                    <option>U.S. Virgin Islands</option>
-                  </select>
-                </label>
-              </div>
-
-              <div class="verify-box">
-                <h3>Verification and fraud prevention</h3>
-                <p>
-                  We protect against fraud and identity theft. All new accounts must verify email,
-                  phone, and identity before trading is approved.
-                </p>
-                <div class="verify-actions">
-                  <button class="secondary-btn" type="button" id="sendEmailVerify">Send email verification</button>
-                  <button class="secondary-btn" type="button" id="sendPhoneVerify">Send phone verification</button>
+              <div class="signup-step active" data-step="1">
+                <div class="form-grid">
+                  <label>
+                    First Name
+                    <input type="text" name="firstName" placeholder="First Name" required />
+                  </label>
+                  <label>
+                    Last Name
+                    <input type="text" name="lastName" placeholder="Last Name" required />
+                  </label>
+                  <label>
+                    Email
+                    <input type="email" name="email" placeholder="you@example.com" required />
+                  </label>
+                  <label>
+                    Phone Number
+                    <input type="tel" name="phone" placeholder="+1 876 555 0198" required />
+                  </label>
+                  <label>
+                    Username ID
+                    <input type="text" name="username" placeholder="usernameID" required />
+                  </label>
+                  <label>
+                    Date of Birth
+                    <input type="date" name="dob" required />
+                  </label>
+                  <label class="full-width">
+                    Country of Birth
+                    <select name="countryBirth" required>
+                      <option value="">Select country</option>
+                      <option>Anguilla</option>
+                      <option>Antigua and Barbuda</option>
+                      <option>The Bahamas</option>
+                      <option>Barbados</option>
+                      <option>Belize</option>
+                      <option>Bermuda</option>
+                      <option>British Virgin Islands</option>
+                      <option>Cayman Islands</option>
+                      <option>Cuba</option>
+                      <option>Dominica</option>
+                      <option>Dominican Republic</option>
+                      <option>Grenada</option>
+                      <option>Guadeloupe</option>
+                      <option>Haiti</option>
+                      <option>Jamaica</option>
+                      <option>Martinique</option>
+                      <option>Montserrat</option>
+                      <option>Puerto Rico</option>
+                      <option>Saint Kitts and Nevis</option>
+                      <option>Saint Lucia</option>
+                      <option>Saint Vincent and the Grenadines</option>
+                      <option>Trinidad and Tobago</option>
+                      <option>Turks and Caicos Islands</option>
+                      <option>U.S. Virgin Islands</option>
+                    </select>
+                  </label>
+                </div>
+                <div class="step-actions">
+                  <button class="primary-btn next-step" type="button">Continue</button>
                 </div>
               </div>
 
-              <div class="identity-box">
-                <h3>Identity verification</h3>
-                <p>Choose one valid government-issued document and upload a matching selfie.</p>
-                <div class="upload-options">
-                  <label><input type="radio" name="idType" value="Passport" /> Passport</label>
-                  <label><input type="radio" name="idType" value="National ID / State ID" /> National ID / State ID</label>
-                  <label><input type="radio" name="idType" value="Driver's License" /> Driver's License</label>
-                  <label><input type="radio" name="idType" value="TRN / SSN" /> TRN / SSN</label>
+              <div class="signup-step" data-step="2">
+                <div class="verify-box">
+                  <h3>Verification and fraud prevention</h3>
+                  <p>
+                    We protect against fraud and identity theft. All new accounts must verify email,
+                    phone, and identity before trading is approved.
+                  </p>
+                  <div class="verify-actions">
+                    <button class="secondary-btn" type="button" id="sendEmailVerify">Send email verification</button>
+                    <button class="secondary-btn" type="button" id="sendPhoneVerify">Send phone verification</button>
+                  </div>
+                </div>
+                <div class="step-actions">
+                  <button class="secondary-btn prev-step" type="button">Back</button>
+                  <button class="primary-btn next-step" type="button">Continue</button>
+                </div>
+              </div>
+
+              <div class="signup-step" data-step="3">
+                <div class="identity-box">
+                  <h3>Identity verification</h3>
+                  <p>Choose one valid government-issued document and upload a matching selfie.</p>
+                  <div class="upload-options">
+                    <label><input type="radio" name="idType" value="Passport" /> Passport</label>
+                    <label><input type="radio" name="idType" value="National ID / State ID" /> National ID / State ID</label>
+                    <label><input type="radio" name="idType" value="Driver's License" /> Driver's License</label>
+                    <label><input type="radio" name="idType" value="TRN / SSN" /> TRN / SSN</label>
+                  </div>
+
+                  <label>
+                    Upload photo of ID
+                    <input type="file" accept="image/*" />
+                  </label>
+                  <label>
+                    Take selfie for identity match
+                    <input type="file" accept="image/*" capture="user" />
+                  </label>
+                </div>
+                <div class="step-actions">
+                  <button class="secondary-btn prev-step" type="button">Back</button>
+                  <button class="primary-btn next-step" type="button">Continue</button>
+                </div>
+              </div>
+
+              <div class="signup-step" data-step="4">
+                <div class="form-grid">
+                  <label>
+                    New Password
+                    <input type="password" name="password" placeholder="New Password" required />
+                  </label>
+                  <label>
+                    Confirm Password
+                    <input type="password" name="confirmPassword" placeholder="Confirm Password" required />
+                  </label>
                 </div>
 
-                <label>
-                  Upload photo of ID
-                  <input type="file" accept="image/*" />
-                </label>
-                <label>
-                  Take selfie for identity match
-                  <input type="file" accept="image/*" capture="user" />
-                </label>
-              </div>
+                <div class="terms-box">
+                  <input type="checkbox" name="terms" required />
+                  <p>
+                    I agree to the Terms &amp; Conditions and understand the verification process to prevent fraud and identity theft.
+                  </p>
+                </div>
 
-              <div class="terms-box">
-                <input type="checkbox" name="terms" required />
-                <p>
-                  I agree to the Terms &amp; Conditions and understand the verification process to prevent fraud and identity theft.
-                </p>
+                <div class="step-actions">
+                  <button class="secondary-btn prev-step" type="button">Back</button>
+                  <button class="primary-btn" type="submit">Create account</button>
+                </div>
               </div>
-
-              <button class="primary-btn" type="submit">Create account</button>
             </form>
           </div>
         </section>
@@ -521,6 +561,15 @@
       const loginBox = document.getElementById('loginBox');
       const signupBox = document.getElementById('signupBox');
       const toast = document.getElementById('toast');
+      const signupSteps = Array.from(document.querySelectorAll('.signup-step'));
+      let currentStep = 0;
+
+      function renderSignupStep(stepIndex) {
+        currentStep = Math.max(0, Math.min(stepIndex, signupSteps.length - 1));
+        signupSteps.forEach((step, index) => {
+          step.classList.toggle('active', index === currentStep);
+        });
+      }
 
       function showToast(message) {
         toast.textContent = message;
@@ -541,6 +590,28 @@
         loginTab.classList.remove('active');
         signupBox.classList.add('active');
         loginBox.classList.remove('active');
+        renderSignupStep(0);
+      });
+
+      document.querySelectorAll('.next-step').forEach((button) => {
+        button.addEventListener('click', () => {
+          const currentFormStep = signupSteps[currentStep];
+          const requiredInputs = currentFormStep.querySelectorAll('input[required], select[required]');
+          const invalid = Array.from(requiredInputs).find((input) => !input.checkValidity());
+
+          if (invalid) {
+            invalid.reportValidity();
+            return;
+          }
+
+          renderSignupStep(currentStep + 1);
+        });
+      });
+
+      document.querySelectorAll('.prev-step').forEach((button) => {
+        button.addEventListener('click', () => {
+          renderSignupStep(currentStep - 1);
+        });
       });
 
       document.getElementById('sendEmailVerify').addEventListener('click', () => {
@@ -573,7 +644,6 @@
         localStorage.setItem('makingsUserLoggedIn', 'true');
         showToast('Account created successfully. Welcome to Makings.');
         
-        // Redirect to trade section after 1.5 seconds
         setTimeout(() => {
           window.location.href = 'index.html#trade';
         }, 1500);
@@ -600,7 +670,6 @@
           localStorage.setItem('makingsUserLoggedIn', 'true');
           showToast('Login successful. Welcome back.');
           
-          // Redirect to trade section after 1.5 seconds
           setTimeout(() => {
             window.location.href = 'index.html#trade';
           }, 1500);
@@ -608,6 +677,8 @@
           showToast('Username/email or password is incorrect.');
         }
       });
+
+      renderSignupStep(0);
     </script>
   </body>
 </html>

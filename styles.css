@@ -325,12 +325,16 @@ canvas {
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
+  color: var(--primary-gold);
+  width: 100%;
 }
 
-.asset-card:hover {
+.asset-card:hover,
+.asset-card.is-selected {
   border-color: var(--light-gold);
   box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
   transform: translateY(-5px);
+  background: rgba(212, 175, 55, 0.12);
 }
 
 .asset-card h4 {
@@ -341,6 +345,242 @@ canvas {
 .asset-card p {
   color: var(--light-gold);
   font-size: 12px;
+}
+
+.asset-card strong {
+  display: block;
+  margin: 0.75rem 0 0.2rem;
+  font-size: 1.1rem;
+}
+
+.asset-card small {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.coin-rank {
+  display: inline-block;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--light-gold);
+  opacity: 0.8;
+}
+
+.trend-down {
+  color: #ff5c5c;
+  font-weight: 700;
+}
+
+.trend-up {
+  color: #18d77a;
+  font-weight: 700;
+}
+
+.market-table-wrap {
+  margin-top: 2.5rem;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.table-header h3 {
+  color: var(--primary-gold);
+  margin-top: 0.5rem;
+}
+
+.table-badges {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.table-badges span {
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  border-radius: 999px;
+  padding: 0.3rem 0.7rem;
+  color: var(--light-gold);
+  font-size: 11px;
+}
+
+.market-table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+}
+
+.market-table th,
+.market-table td {
+  text-align: left;
+  padding: 0.9rem 0.8rem;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.14);
+}
+
+.market-table th {
+  color: var(--light-gold);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.market-table td {
+  color: var(--primary-gold);
+}
+
+.asset-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.asset-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(212, 175, 55, 0.15);
+  border: 1px solid var(--primary-gold);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  color: var(--primary-gold);
+}
+
+.asset-cell strong {
+  font-size: 0.95rem;
+}
+
+.asset-cell small {
+  color: var(--light-gold);
+}
+
+.market-overview {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.overview-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-height: 120px;
+}
+
+.overview-card span {
+  color: var(--light-gold);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.overview-card strong {
+  color: var(--primary-gold);
+  font-size: clamp(1.2rem, 2vw, 2rem);
+}
+
+.overview-card small {
+  font-size: 0.8rem;
+}
+
+.market-dashboard {
+  display: grid;
+  grid-template-columns: 2.3fr 0.9fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.market-panel,
+.watch-panel {
+  min-height: 100%;
+}
+
+.market-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.filter-chip {
+  background: rgba(212, 175, 55, 0.08);
+  border: 1px solid var(--primary-gold);
+  border-radius: 999px;
+  color: var(--primary-gold);
+  padding: 0.55rem 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-chip.is-active,
+.filter-chip:hover {
+  background: var(--primary-gold);
+  color: var(--black);
+}
+
+.search-field {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--light-gold);
+  font-size: 12px;
+}
+
+.search-field input {
+  background: rgba(212, 175, 55, 0.08);
+  border: 1px solid var(--primary-gold);
+  border-radius: 8px;
+  color: var(--primary-gold);
+  padding: 0.7rem 0.9rem;
+  min-width: 180px;
+}
+
+.watch-header {
+  margin-bottom: 1rem;
+}
+
+.watch-header h3 {
+  color: var(--primary-gold);
+  margin-top: 0.4rem;
+}
+
+.watchlist {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.watchlist li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 8px;
+  background: rgba(212, 175, 55, 0.04);
+}
+
+.watchlist strong {
+  color: var(--primary-gold);
+}
+
+.watchlist small {
+  color: var(--light-gold);
 }
 
 .market-chart-wrap {
@@ -620,6 +860,34 @@ canvas {
 .bot-performance h4 {
   color: var(--primary-gold);
   margin-bottom: 1rem;
+}
+
+.bot-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.bot-metrics div {
+  background: rgba(212, 175, 55, 0.05);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 10px;
+  padding: 0.8rem;
+}
+
+.bot-metrics span {
+  display: block;
+  color: var(--light-gold);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.4rem;
+}
+
+.bot-metrics strong {
+  color: var(--primary-gold);
+  font-size: 1rem;
 }
 
 .bot-info {
@@ -1047,14 +1315,36 @@ canvas {
   bottom: 2rem;
   left: 50%;
   transform: translateX(-50%);
-  background: var(--primary-gold);
+  background: rgba(212, 175, 55, 0.96);
   color: var(--black);
   padding: 1rem 2rem;
   border-radius: 6px;
   box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
-  max-width: 400px;
+  max-width: 420px;
   text-align: center;
   z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.25s ease;
+}
+
+.toast.show {
+  opacity: 1;
+}
+
+.toast.success {
+  background: rgba(24, 215, 122, 0.96);
+  color: #06150d;
+}
+
+.toast.loss {
+  background: rgba(255, 92, 92, 0.96);
+  color: #180b0b;
+}
+
+.toast.warning {
+  background: rgba(255, 176, 0, 0.96);
+  color: #1d1000;
 }
 
 /* TradingView Widget */
@@ -1097,6 +1387,23 @@ canvas {
 
   .trade-layout {
     grid-template-columns: 1fr;
+  }
+
+  .market-dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .market-overview {
+    grid-template-columns: repeat(2, minmax(160px, 1fr));
+  }
+
+  .market-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-field {
+    justify-content: space-between;
   }
 
   .bot-layout {

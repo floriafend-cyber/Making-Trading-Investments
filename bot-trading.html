@@ -125,6 +125,18 @@
               </label>
             </div>
 
+            <div class="manual-trading">
+              <h4>Manual Trade Controls</h4>
+              <label>
+                Order size (coin units)
+                <input type="number" id="manualOrderSize" min="0.01" step="0.01" value="0.5" />
+              </label>
+              <div class="manual-actions">
+                <button class="btn btn-primary" type="button" id="manualBuyBtn">Buy now</button>
+                <button class="btn btn-ghost" type="button" id="manualSellBtn">Sell now</button>
+              </div>
+            </div>
+
             <div class="bot-actions">
               <button class="btn btn-primary" type="button" id="startBotBtn">Start bot</button>
               <button class="btn btn-ghost" type="button" id="pauseBotBtn">Pause bot</button>
@@ -162,7 +174,30 @@
 
             <div class="bot-performance">
               <h4>Bot Performance</h4>
+              <div class="bot-metrics">
+                <div>
+                  <span>Portfolio</span>
+                  <strong id="botBalance">$25,000.00</strong>
+                </div>
+                <div>
+                  <span>P/L</span>
+                  <strong id="botPnl">$0.00</strong>
+                </div>
+                <div>
+                  <span>Win rate</span>
+                  <strong id="botWinRate">0%</strong>
+                </div>
+                <div>
+                  <span>Trades</span>
+                  <strong id="botTrades">0</strong>
+                </div>
+              </div>
               <canvas id="botCanvas" width="600" height="240" aria-label="Trading bot live chart"></canvas>
+            </div>
+
+            <div class="leaderboard-wrap">
+              <h4>Strategy leaderboard</h4>
+              <ul id="leaderboardList" class="leaderboard-list"></ul>
             </div>
 
             <h4>Recent Trades</h4>
@@ -206,21 +241,258 @@
     <div id="toast" class="toast" aria-live="polite">Welcome to Makings Bot Trading.</div>
 
     <script>
-      // Update configuration summary when values change
       const coinSelect = document.getElementById('coinSelect');
       const durationSelect = document.getElementById('tradingDuration');
       const stopLossInput = document.getElementById('stopLoss');
       const takeProfitInput = document.getElementById('takeProfit');
       const riskLevel = document.getElementById('riskLevel');
       const strategy = document.getElementById('strategy');
+      const toast = document.getElementById('toast');
+      const botCanvas = document.getElementById('botCanvas');
+      const tradeFeed = document.getElementById('tradeFeed');
+      const botPnl = document.getElementById('botPnl');
+      const botBalance = document.getElementById('botBalance');
+      const botWinRate = document.getElementById('botWinRate');
+      const botTrades = document.getElementById('botTrades');
+      const botStatus = document.querySelector('.bot-status');
+      const leaderboardList = document.getElementById('leaderboardList');
+      const manualOrderSize = document.getElementById('manualOrderSize');
+      const manualBuyBtn = document.getElementById('manualBuyBtn');
+      const manualSellBtn = document.getElementById('manualSellBtn');
+
+      const botState = {
+        running: false,
+        intervalId: null,
+        balance: 25000,
+        pnl: 0,
+        trades: 0,
+        wins: 0,
+        losses: 0,
+        position: null,
+        history: [65000, 65750, 66100, 66420, 66380, 66940, 67150]
+      };
+
+      const coinPrices = {
+        BTC: 66940,
+        ETH: 3520,
+        XRP: 0.62,
+        SOL: 158.4,
+        ADA: 0.77,
+        DOT: 8.4,
+        DOGE: 0.18,
+        USDT: 1
+      };
+
+      const leaderboardScores = {
+        Momentum: 86,
+        Scalp: 72,
+        Arbitrage: 80,
+        'Dollar-cost averaging': 68
+      };
+
+      function showToast(message, type = 'info') {
+        toast.textContent = message;
+        toast.className = 'toast show';
+        if (type === 'success') toast.classList.add('success');
+        if (type === 'loss') toast.classList.add('loss');
+        if (type === 'warning') toast.classList.add('warning');
+        clearTimeout(showToast.timer);
+        showToast.timer = setTimeout(() => {
+          toast.className = 'toast';
+        }, 3200);
+      }
+
+      function formatMoney(value) {
+        return new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+          maximumFractionDigits: value >= 1000 ? 2 : 4
+        }).format(value);
+      }
 
       function updateSummary() {
-        document.getElementById('summarycion').textContent = coinSelect.value || 'None';
+        document.getElementById('summarycoin').textContent = coinSelect.value || 'None';
         document.getElementById('summaryDuration').textContent = durationSelect.value || 'None';
         document.getElementById('summarySL').textContent = stopLossInput.value ? stopLossInput.value + '%' : 'None';
         document.getElementById('summaryTP').textContent = takeProfitInput.value ? takeProfitInput.value + '%' : 'None';
         document.getElementById('summaryRisk').textContent = riskLevel.value;
         document.getElementById('summaryStrategy').textContent = strategy.value;
+      }
+
+      function updatePerformancePanel() {
+        const winRate = botState.trades ? (botState.wins / botState.trades) * 100 : 0;
+        botPnl.textContent = formatMoney(botState.pnl);
+        botBalance.textContent = formatMoney(botState.balance);
+        botWinRate.textContent = `${winRate.toFixed(1)}%`;
+        botTrades.textContent = String(botState.trades);
+      }
+
+      function updateLeaderboard() {
+        if (!leaderboardList) return;
+
+        const entries = Object.entries(leaderboardScores)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 4);
+
+        leaderboardList.innerHTML = entries
+          .map(([label, score], index) => `
+            <li>
+              <span>#${index + 1} ${label}</span>
+              <strong>${score}</strong>
+            </li>
+          `)
+          .join('');
+      }
+
+      function addFeedItem(message) {
+        const item = document.createElement('li');
+        item.textContent = message;
+        tradeFeed.prepend(item);
+        while (tradeFeed.children.length > 6) {
+          tradeFeed.removeChild(tradeFeed.lastChild);
+        }
+      }
+
+      function renderBotChart() {
+        const ctx = botCanvas.getContext('2d');
+        const width = botCanvas.width;
+        const height = botCanvas.height;
+        const padding = 18;
+        const min = Math.min(...botState.history);
+        const max = Math.max(...botState.history);
+        const range = max - min || 1;
+
+        ctx.clearRect(0, 0, width, height);
+        ctx.fillStyle = 'rgba(212,175,55,0.08)';
+        ctx.fillRect(0, 0, width, height);
+
+        ctx.beginPath();
+        ctx.strokeStyle = '#d4af37';
+        ctx.lineWidth = 3;
+        ctx.shadowColor = 'rgba(212,175,55,0.4)';
+        ctx.shadowBlur = 8;
+
+        botState.history.forEach((value, index) => {
+          const x = padding + (index / (botState.history.length - 1)) * (width - padding * 2);
+          const y = height - padding - ((value - min) / range) * (height - padding * 2);
+          if (index === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        });
+
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+      }
+
+      function updateStatusLabel() {
+        const label = botState.running ? 'Bot running live' : 'Bot paused';
+        botStatus.innerHTML = `<span class="dot" style="background:${botState.running ? '#00ff00' : '#ffb000'}"></span>${label}`;
+      }
+
+      function decideTrade(symbol, tradePrice) {
+        const riskMap = { Conservative: 0.03, Balanced: 0.06, Aggressive: 0.1 };
+        const selectedRisk = riskMap[riskLevel.value] || 0.06;
+        const stopLoss = Number(stopLossInput.value) || 5;
+        const takeProfit = Number(takeProfitInput.value) || 10;
+        const strategyName = strategy.value;
+
+        if (!botState.position) {
+          const momentumBias = (Math.random() * 2 - 1) * 0.06;
+          const shouldBuy = strategyName === 'Momentum' ? momentumBias > -0.01 : Math.random() > 0.42;
+
+          if (shouldBuy) {
+            const size = Math.min((botState.balance * selectedRisk) / tradePrice, 2.5);
+            botState.position = {
+              symbol,
+              entry: tradePrice,
+              size,
+              stopLoss: stopLoss,
+              takeProfit: takeProfit,
+              strategy: strategyName
+            };
+            botState.balance -= size * tradePrice;
+            addFeedItem(`${symbol} buy signal triggered at ${formatMoney(tradePrice)}.`);
+            showToast(`Bot bought ${symbol} at ${formatMoney(tradePrice)}.`, 'success');
+            return;
+          }
+        }
+
+        if (botState.position && botState.position.symbol === symbol) {
+          const movePct = ((tradePrice - botState.position.entry) / botState.position.entry) * 100;
+
+          if (movePct >= botState.position.takeProfit || movePct <= -botState.position.stopLoss) {
+            const exitValue = botState.position.size * tradePrice;
+            const result = exitValue - (botState.position.size * botState.position.entry);
+            botState.pnl += result;
+            botState.balance += exitValue;
+            botState.trades += 1;
+
+            if (result > 0) {
+              botState.wins += 1;
+              addFeedItem(`${symbol} closed profit at ${formatMoney(tradePrice)}. +${formatMoney(result)}.`);
+              showToast(`Trade success: ${symbol} gained ${formatMoney(result)}.`, 'success');
+            } else {
+              addFeedItem(`${symbol} closed loss at ${formatMoney(tradePrice)}. ${formatMoney(result)}.`);
+              showToast(`Trade loss: ${symbol} lost ${formatMoney(Math.abs(result))}.`, 'loss');
+            }
+
+            botState.position = null;
+            updatePerformancePanel();
+          }
+        }
+      }
+
+      function tickBot() {
+        if (!botState.running || !coinSelect.value) {
+          return;
+        }
+
+        const symbol = coinSelect.value;
+        const price = coinPrices[symbol] || 100;
+        const move = (Math.random() - 0.5) * (symbol === 'USDT' ? 0.01 : 0.09);
+        const nextPrice = price * (1 + move);
+        coinPrices[symbol] = Number(nextPrice.toFixed(symbol === 'BTC' ? 2 : 4));
+        botState.history.push(nextPrice);
+        if (botState.history.length > 30) botState.history.shift();
+
+        decideTrade(symbol, nextPrice);
+        renderBotChart();
+        updatePerformancePanel();
+      }
+
+      function executeManualTrade(direction) {
+        if (!coinSelect.value) {
+          showToast('Select a coin before placing a trade.', 'warning');
+          return;
+        }
+
+        const symbol = coinSelect.value;
+        const quantity = Number(manualOrderSize.value) || 0.5;
+        const currentPrice = coinPrices[symbol] || 100;
+        const total = currentPrice * quantity;
+
+        if (direction === 'buy') {
+          if (total > botState.balance) {
+            showToast('Not enough balance for this order.', 'warning');
+            return;
+          }
+
+          botState.balance -= total;
+          botState.trades += 1;
+          botState.wins += 1;
+          botState.pnl += 0;
+          addFeedItem(`Manual buy: ${quantity} ${symbol} at ${formatMoney(currentPrice)}.`);
+          showToast(`Manual buy successful: ${symbol} added to holdings.`, 'success');
+        }
+
+        if (direction === 'sell') {
+          const marketValue = currentPrice * quantity;
+          botState.balance += marketValue;
+          botState.trades += 1;
+          addFeedItem(`Manual sell: ${quantity} ${symbol} at ${formatMoney(currentPrice)}.`);
+          showToast(`Manual sell successful: ${symbol} sold for ${formatMoney(marketValue)}.`, 'success');
+        }
+
+        updatePerformancePanel();
       }
 
       coinSelect.addEventListener('change', updateSummary);
@@ -230,22 +502,46 @@
       riskLevel.addEventListener('change', updateSummary);
       strategy.addEventListener('change', updateSummary);
 
-      // Bot control buttons
       document.getElementById('startBotBtn').addEventListener('click', function() {
         if (!coinSelect.value || !durationSelect.value) {
-          alert('Please select a coin and trading duration');
+          showToast('Please choose a coin and trading duration.', 'warning');
           return;
         }
-        alert('Bot started with selected settings!');
+
+        if (botState.running) {
+          showToast('The bot is already running.', 'warning');
+          return;
+        }
+
+        botState.running = true;
+        updateStatusLabel();
         this.disabled = true;
         document.getElementById('pauseBotBtn').disabled = false;
+        showToast('Bot started successfully. Monitoring live market data.', 'success');
+        if (!botState.intervalId) botState.intervalId = setInterval(tickBot, 3000);
       });
 
       document.getElementById('pauseBotBtn').addEventListener('click', function() {
-        alert('Bot paused');
+        if (!botState.running) {
+          showToast('Bot is already paused.', 'warning');
+          return;
+        }
+
+        botState.running = false;
+        updateStatusLabel();
         this.disabled = true;
         document.getElementById('startBotBtn').disabled = false;
+        showToast('Bot paused.', 'warning');
       });
+
+      manualBuyBtn.addEventListener('click', () => executeManualTrade('buy'));
+      manualSellBtn.addEventListener('click', () => executeManualTrade('sell'));
+
+      updateSummary();
+      updateLeaderboard();
+      updateStatusLabel();
+      updatePerformancePanel();
+      renderBotChart();
     </script>
     <script src="script.js"></script>
   </body>
