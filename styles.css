@@ -147,6 +147,232 @@ header.topbar {
   color: var(--light-gold);
 }
 
+  .btn-action {
+    padding: 1rem 2rem;
+    font-size: 16px;
+    border-radius: 8px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    min-width: 150px;
+  }
+
+  .btn-deposit {
+    background: linear-gradient(135deg, #1e7a2e 0%, #2ea63c 100%);
+    color: white;
+  }
+
+  .btn-deposit:hover {
+    background: linear-gradient(135deg, #2ea63c 0%, #38c94f 100%);
+    box-shadow: 0 0 20px rgba(46, 166, 60, 0.6);
+    transform: translateY(-2px);
+  }
+
+  .btn-withdraw {
+    background: linear-gradient(135deg, #7a1e1e 0%, #a62e2e 100%);
+    color: white;
+  }
+
+  .btn-withdraw:hover {
+    background: linear-gradient(135deg, #a62e2e 0%, #c9383a 100%);
+    box-shadow: 0 0 20px rgba(166, 46, 46, 0.6);
+    transform: translateY(-2px);
+  }
+
+  .btn-transfer {
+    background: linear-gradient(135deg, #1e4a7a 0%, #2e6ba6 100%);
+    color: white;
+  }
+
+  .btn-transfer:hover {
+    background: linear-gradient(135deg, #2e6ba6 0%, #3a7ec9 100%);
+    box-shadow: 0 0 20px rgba(46, 107, 166, 0.6);
+    transform: translateY(-2px);
+  }
+
+  .btn-send {
+    background: linear-gradient(135deg, #7a4a1e 0%, #a66b2e 100%);
+    color: white;
+  }
+
+  .btn-send:hover {
+    background: linear-gradient(135deg, #a66b2e 0%, #c9893a 100%);
+    box-shadow: 0 0 20px rgba(166, 107, 46, 0.6);
+    transform: translateY(-2px);
+  }
+
+  .btn-bills {
+    background: linear-gradient(135deg, #5a1e7a 0%, #8b2eaa 100%);
+    color: white;
+  }
+
+  .btn-bills:hover {
+    background: linear-gradient(135deg, #8b2eaa 0%, #a93ac9 100%);
+    box-shadow: 0 0 20px rgba(139, 46, 170, 0.6);
+    transform: translateY(-2px);
+  }
+
+  .transaction-actions {
+    margin: 2rem 0;
+  }
+
+  .transaction-actions h3 {
+    color: var(--primary-gold);
+    margin-bottom: 1.5rem;
+    font-size: 20px;
+  }
+
+  .action-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    .action-buttons {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  
+    .btn-action {
+      padding: 0.75rem 1rem;
+      font-size: 14px;
+      min-width: 120px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .action-buttons {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .payment-methods {
+    margin: 2rem 0;
+  }
+
+  .payment-methods-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .payment-methods h3 {
+    margin: 0.3rem 0;
+  }
+
+  .payment-methods-head p,
+  .form-heading p {
+    color: var(--light-gold);
+    margin-top: 0.4rem;
+  }
+
+  .payment-method-actions,
+  .form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .payment-form {
+    border-top: 1px solid rgba(212, 175, 55, 0.45);
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+  }
+
+  .form-heading {
+    margin-bottom: 1rem;
+  }
+
+  .form-heading h4 {
+    color: var(--primary-gold);
+    font-size: 18px;
+  }
+
+  .form-section-divider {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(212, 175, 55, 0.3);
+  }
+
+  .form-section-divider h4 {
+    color: var(--primary-gold);
+    font-size: 16px;
+    margin: 0;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .form-grid label {
+    color: var(--light-gold);
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .form-grid input,
+  .form-grid select {
+    background: rgba(10, 10, 10, 0.85);
+    border: 1px solid var(--dark-gold);
+    border-radius: 6px;
+    color: white;
+    font: inherit;
+    min-height: 44px;
+    padding: 0.65rem 0.75rem;
+  }
+
+  .form-grid input:focus,
+  .form-grid select:focus {
+    border-color: var(--primary-gold);
+    outline: 2px solid rgba(212, 175, 55, 0.3);
+  }
+
+  .form-field-wide {
+    grid-column: span 2;
+  }
+
+  .payment-status {
+    color: #8fe39b;
+    font-weight: 600;
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    .payment-methods-head {
+      flex-direction: column;
+    }
+
+    .payment-method-actions {
+      width: 100%;
+    }
+
+    .payment-method-actions .btn {
+      flex: 1;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .form-field-wide {
+      grid-column: auto;
+    }
+
+    .payment-method-actions .btn {
+      width: 100%;
+    }
+  }
+
 /* Cards */
 .card-glass {
   background: rgba(0, 0, 0, 0.6);

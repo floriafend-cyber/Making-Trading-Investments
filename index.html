@@ -27,16 +27,17 @@
       </div>
 
       <nav class="main-nav" aria-label="Main navigation">
-        <a href="#Home">Home</a>
-        <a href="#Trade">Trade</a>
-        <a href="Shop.html">Shop</a>
-        <a href="Bot-trading.html">BotTrading</a>
-        <a href="Treasury.html">Bank</a>
-        <a href="Create-coin.html">Create Coin</a>
+        <a href="index.html#home">Home</a>
+        <a href="trade.html">Trade</a>
+        <a href="shop.html">Shop</a>
+        <a href="bot-trading.html">Bot Trading</a>
+        <a href="treasury.html">Treasury/Wallet</a>
+        <a href="create-coin.html">Create Coin</a>
       </nav>
 
       <div class="nav-actions">
-        <a class="btn btn-primary" href="verification.html">Account</a>
+        <a class="btn btn-ghost" href="verification.html">Login</a>
+        <a class="btn btn-primary" href="verification.html">Sign Up</a>
       </div>
     </header>
 
@@ -51,7 +52,7 @@
           </p>
 
           <div class="hero-actions">
-            <a class="btn btn-secondary" href="#markets">Explore Markets</a>
+            <a class="btn btn-secondary" href="trade.html">Explore Markets</a>
           </div>
 
           <div class="hero-stats">
@@ -69,208 +70,18 @@
             </div>
           </div>
         </div>
-
-
-        </div>
-
-
-        </div>
       </section>
+    </main>
 
-      <section class="market-section section-shell" id="markets">
-        <div class="section-head">
-          <div>
-            <span class="eyebrow">Live assets</span>
-            <h2>Crypto, stocks, commodities, and brand markets</h2>
-          </div>
-          <button class="btn btn-ghost">View all</button>
-        </div>
+    <footer class="site-footer">
+      <p>© 2026 Makings | Crypto, investment, and secure digital trading.</p>
+    </footer>
 
-        <div class="market-overview">
-          <div class="overview-card card-glass">
-            <span>Market cap</span>
-            <strong id="marketCapStat">$0</strong>
-            <small class="trend-up">+2.48%</small>
-          </div>
-          <div class="overview-card card-glass">
-            <span>24h volume</span>
-            <strong id="volumeStat">$0</strong>
-            <small class="trend-up">+7.16%</small>
-          </div>
-          <div class="overview-card card-glass">
-            <span>Dominance</span>
-            <strong id="dominanceStat">BTC 52%</strong>
-            <small class="trend-up">+0.84%</small>
-          </div>
-          <div class="overview-card card-glass">
-            <span>Fear & Greed</span>
-            <strong>72 / 100</strong>
-            <small class="trend-up">Greed</small>
-          </div>
-        </div>
+    <div id="toast" class="toast" aria-live="polite">To Our Kings & Queen In The Making Welcome.</div>
 
-        <div class="market-dashboard">
-          <div class="market-panel card-glass">
-            <div class="market-toolbar">
-              <div class="filter-row">
-                <button class="filter-chip is-active" data-filter="all" type="button">All</button>
-                <button class="filter-chip" data-filter="layer1" type="button">Layer 1</button>
-                <button class="filter-chip" data-filter="meme" type="button">Meme</button>
-                <button class="filter-chip" data-filter="stable" type="button">Stable</button>
-              </div>
-              <label class="search-field">
-                <span>Search</span>
-                <input id="marketSearch" type="search" placeholder="Search asset" />
-              </label>
-            </div>
-
-            <div class="asset-grid" id="assetGrid"></div>
-          </div>
-
-          <aside class="watch-panel card-glass">
-            <div class="watch-header">
-              <span class="eyebrow">Watchlist</span>
-              <h3>Top picks</h3>
-            </div>
-            <ul id="watchlist" class="watchlist"></ul>
-          </aside>
-        </div>
-
-        <div class="market-chart-wrap card-glass">
-          <div class="chart-header">
-            <div>
-              <span class="eyebrow">Spot chart</span>
-              <h3 id="marketChartTitle">BTC / USD live market</h3>
-            </div>
-            <div class="chart-toggle">
-              <button class="is-active" data-chart-symbol="BTC">BTC</button>
-              <button data-chart-symbol="ETH">ETH</button>
-              <button data-chart-symbol="XRP">XRP</button>
-              <button data-chart-symbol="SOL">SOL</button>
-            </div>
-          </div>
-          <canvas id="marketCanvas" width="1200" height="360" aria-label="Detailed market chart"></canvas>
-        </div>
-
-        <div class="market-table-wrap card-glass">
-          <div class="table-header">
-            <div>
-              <span class="eyebrow">Live crypto market</span>
-              <h3>Top movers right now</h3>
-            </div>
-            <div class="table-badges">
-              <span>24H volume</span>
-              <span>Market cap</span>
-            </div>
-          </div>
-
-          <table class="market-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Asset</th>
-                <th>Price</th>
-                <th>24h</th>
-                <th>Volume</th>
-                <th>Market cap</th>
-              </tr>
-            </thead>
-            <tbody id="marketTableBody"></tbody>
-          </table>
-        </div>
-      </section>
-
-      <section class="trade-section section-shell" id="trade">
-        <div class="section-head">
-          <div>
-            <span class="eyebrow">Trade center</span>
-            <h2>Investment options and secure funding</h2>
-          </div>
-        </div>
-
-        <div class="trade-layout">
-          <div class="card-glass trading-box">
-            <h3>Deposit to start trading</h3>
-            <p>
-              Before starting trading, funds must be deposited into your account/wallet first.
-            </p>
-            <form class="mini-form" id="depositForm">
-              <label>
-                Deposit amount
-                <input type="number" min="50" step="10" value="2500" />
-              </label>
-              <label>
-                Funding source
-                <select>
-                  <option>Bank account</option>
-                  <option>Wallet vault</option>
-                  <option>Credit card</option>
-                  <option>Wire transfer</option>
-                </select>
-              </label>
-              <button class="btn btn-primary" type="submit">Deposit funds</button>
-            </form>
-
-            <div class="account-balance">
-              <span>Available balance</span>
-              <strong>$184,250.64</strong>
-            </div>
-          </div>
-
-          <div class="card-glass trading-box">
-            <h3>Buy or sell</h3>
-            <form class="mini-form" id="tradeForm">
-              <label>
-                Asset
-                <select>
-                  <option>Bitcoin (BTC)</option>
-                  <option>Ethereum (ETH)</option>
-                  <option>XRP (XRP)</option>
-                  <option>BNB (BNB)</option>
-                  <option>Solana (SOL)</option>
-                  <option>Tether (USDT)</option>
-                </select>
-              </label>
-              <label>
-                Trade type
-                <select>
-                  <option>Buy</option>
-                  <option>Sell</option>
-                </select>
-              </label>
-              <label>
-                Amount
-                <input type="number" min="0.01" step="0.01" value="0.75" />
-              </label>
-              <button class="btn btn-primary" type="submit">Execute trade</button>
-            </form>
-          </div>
-        </div>
-
-        <div class="investment-options">
-          <h3>Investment options</h3>
-          <div class="option-grid">
-            <span>Crypto growth</span>
-            <span>Long-term holdings</span>
-            <span>Staking</span>
-            <span>Portfolio</span>
-            <span>Index tracking</span>
-            <span>Daily picks</span>
-            <span>Income funds</span>
-            <span>Market futures</span>
-          </div>
-        </div>
-      </section>
-
-      <section class="news-section section-shell">
-        <div class="section-head">
-          <div>
-            <span class="eyebrow">Market news</span>
-            <h2>Crypto and company market updates</h2>
-          </div>
-        </div>
-
-        <div class="news-grid">
+    <script src="script.js"></script>
+  </body>
+</html>
           <article class="news-card card-glass">
             <span class="tag">Crypto</span>
             <h3>Bitcoin demand surges as ETFs fund inflow remains strong.</h3>

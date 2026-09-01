@@ -322,3 +322,92 @@ document.addEventListener('DOMContentLoaded', () => {
   fetchLiveMarketData();
   window.setInterval(fetchLiveMarketData, marketConfig.refreshMs);
 });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const bankAccountForm = document.getElementById('bankAccountForm');
+    const cardForm = document.getElementById('cardForm');
+    const addBankAccountBtn = document.getElementById('addBankAccountBtn');
+    const addCardBtn = document.getElementById('addCardBtn');
+    const topAddBankBtn = document.getElementById('topAddBankBtn');
+    const paymentStatus = document.getElementById('paymentStatus');
+
+    if (!bankAccountForm || !cardForm || !addBankAccountBtn || !addCardBtn) {
+      return;
+    }
+
+    const paymentForms = [bankAccountForm, cardForm];
+    const showPaymentForm = (form) => {
+      paymentForms.forEach((paymentForm) => {
+        paymentForm.hidden = paymentForm !== form;
+      });
+      paymentStatus.textContent = '';
+      form.querySelector('input, select').focus();
+    };
+
+    addBankAccountBtn.addEventListener('click', () => showPaymentForm(bankAccountForm));
+    addCardBtn.addEventListener('click', () => showPaymentForm(cardForm));
+    if (topAddBankBtn) {
+      topAddBankBtn.addEventListener('click', () => showPaymentForm(bankAccountForm));
+    }
+
+    document.querySelectorAll('[data-close-form]').forEach((closeButton) => {
+      closeButton.addEventListener('click', () => {
+        document.getElementById(closeButton.dataset.closeForm).hidden = true;
+      });
+    });
+
+    [bankAccountForm, cardForm].forEach((form) => {
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        form.hidden = true;
+        form.reset();
+        paymentStatus.textContent = form === bankAccountForm
+          ? 'Bank account added. It is ready for verification.'
+          : 'Card added. It is ready for verification.';
+      });
+    });
+
+    const depositBtn = document.getElementById('depositBtn');
+    const withdrawBtn = document.getElementById('withdrawBtn');
+    const transferBtn = document.getElementById('transferBtn');
+    const sendBtn = document.getElementById('sendBtn');
+    const billsBtn = document.getElementById('billsBtn');
+
+    const transactionMessages = {
+      deposit: 'Opening Deposit form...\n\nYou can add funds from:\n- Bank Transfer\n- Credit/Debit Card\n- Crypto Transfer',
+      withdraw: 'Opening Withdrawal form...\n\nSelect destination:\n- Bank Account\n- Credit/Debit Card\n- Crypto Wallet',
+      transfer: 'Opening Transfer form...\n\nTransfer between:\n- Your Wallets\n- Trading Accounts\n- Vault Storage',
+      send: 'Opening Send form...\n\nSend funds to:\n- Contacts\n- Beneficiaries\n- Email Address',
+      bills: 'Opening Bill Payment form...\n\nPay:\n- Utility Bills\n- Electricity\n- Data Services\n- Other Services'
+    };
+
+    if (depositBtn) {
+      depositBtn.addEventListener('click', () => {
+        alert(transactionMessages.deposit);
+      });
+    }
+
+    if (withdrawBtn) {
+      withdrawBtn.addEventListener('click', () => {
+        alert(transactionMessages.withdraw);
+      });
+    }
+
+    if (transferBtn) {
+      transferBtn.addEventListener('click', () => {
+        alert(transactionMessages.transfer);
+      });
+    }
+
+    if (sendBtn) {
+      sendBtn.addEventListener('click', () => {
+        alert(transactionMessages.send);
+      });
+    }
+
+    if (billsBtn) {
+      billsBtn.addEventListener('click', () => {
+        alert(transactionMessages.bills);
+      });
+    }
+  });
