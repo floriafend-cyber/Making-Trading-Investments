@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Makings | Profile</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand-wrap">
+        <div class="brand-mark">M</div>
+        <div>
+          <p class="brand-name">Makings</p>
+          <small>Crypto Trading & Investment</small>
+        </div>
+      </div>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="index.html#home">Home</a>
+        <a href="trade.html">Trade</a>
+        <a href="shop.html">Shop</a>
+        <a href="bot-trading.html">Bot Trading</a>
+        <a href="treasury.html">Treasury/Wallet</a>
+        <a href="create-coin.html">Create Coin</a>
+      </nav>
+      <div class="nav-actions"></div>
+    </header>
+
+    <main>
+      <section class="profile-section section-shell">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Account center</span>
+            <h1>Your profile</h1>
+            <p>Review the account details saved for your Makings account.</p>
+          </div>
+        </div>
+        <div id="profileContent" class="profile-grid"></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>© 2026 Makings | Crypto, investment, and secure digital trading.</p>
+    </footer>
+
+    <script src="auth.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const profileContent = document.getElementById('profileContent');
+        const user = window.MakingsAuth.getCurrentUser();
+
+        if (!user) {
+          profileContent.innerHTML = `
+            <div class="card-glass profile-empty">
+              <h2>Sign in to view your profile</h2>
+              <p>Your saved account details will appear here after login.</p>
+              <a class="btn btn-primary" href="verification.html#login">Go to login</a>
+            </div>
+          `;
+          return;
+        }
+
+        const details = [
+          ['Full name', window.MakingsAuth.displayName(user)],
+          ['Username ID', user.username],
+          ['Email', user.email],
+          ['Phone number', user.phone],
+          ['Date of birth', user.dob],
+          ['Country of birth', user.countryBirth],
+          ['Identity document', user.idType || 'Pending verification'],
+          ['Account status', 'Active']
+        ];
+
+        profileContent.innerHTML = `
+          <div class="profile-identity card-glass">
+            <div class="profile-avatar">${window.MakingsAuth.displayName(user).charAt(0).toUpperCase()}</div>
+            <h2>${window.MakingsAuth.displayName(user)}</h2>
+            <p>@${user.username}</p>
+            <span class="profile-status">Account active</span>
+          </div>
+          <div class="profile-details card-glass">
+            <h2>Account details</h2>
+            <div class="details-list">
+              ${details.map(([label, value]) => `<div><span>${label}</span><strong>${value || 'Not provided'}</strong></div>`).join('')}
+            </div>
+            <button class="btn btn-primary profile-logout" type="button">Log out</button>
+          </div>
+        `;
+
+        profileContent.querySelector('.profile-logout').addEventListener('click', () => {
+          window.MakingsAuth.clearCurrentUser();
+          window.location.href = 'verification.html#login';
+        });
+      });
+    </script>
+  </body>
+</html>

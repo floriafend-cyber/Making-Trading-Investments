@@ -555,6 +555,7 @@
 
     <div id="toast" class="toast" aria-live="polite">Saved successfully.</div>
 
+    <script src="auth.js"></script>
     <script>
       const loginTab = document.getElementById('loginTab');
       const signupTab = document.getElementById('signupTab');
@@ -640,8 +641,16 @@
         }
 
         const user = Object.fromEntries(formData.entries());
-        localStorage.setItem('makingsVerificationUser', JSON.stringify(user));
-        localStorage.setItem('makingsUserLoggedIn', 'true');
+        const accounts = window.MakingsAuth.getAccounts();
+        const duplicate = accounts.find((account) => account.username === user.username || account.email === user.email);
+
+        if (duplicate) {
+          showToast('That username or email is already registered.');
+          return;
+        }
+
+        window.MakingsAuth.saveAccounts([...accounts, user]);
+        window.MakingsAuth.setCurrentUser(user);
         showToast('Account created successfully. Welcome to Makings.');
         
         setTimeout(() => {
@@ -656,18 +665,18 @@
         const formData = new FormData(event.target);
         const loginName = String(formData.get('loginName') || '').trim();
         const password = String(formData.get('loginPassword') || '').trim();
-        const savedUser = JSON.parse(localStorage.getItem('makingsVerificationUser') || 'null');
+        const savedUsers = window.MakingsAuth.getAccounts();
 
-        if (!savedUser) {
+        if (!savedUsers.length) {
           showToast('No account found. Please sign up first.');
           return;
         }
 
-        const validUser = loginName === savedUser.username || loginName === savedUser.email;
-        const validPassword = password === savedUser.password;
+        const savedUser = savedUsers.find((user) => loginName === user.username || loginName === user.email);
+        const validPassword = savedUser && password === savedUser.password;
 
-        if (validUser && validPassword) {
-          localStorage.setItem('makingsUserLoggedIn', 'true');
+        if (savedUser && validPassword) {
+          window.MakingsAuth.setCurrentUser(savedUser);
           showToast('Login successful. Welcome back.');
           
           setTimeout(() => {
@@ -677,6 +686,10 @@
           showToast('Username/email or password is incorrect.');
         }
       });
+
+      if (window.location.hash === '#login') {
+        loginTab.click();
+      }
 
       renderSignupStep(0);
     </script>

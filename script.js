@@ -329,10 +329,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const addBankAccountBtn = document.getElementById('addBankAccountBtn');
     const addCardBtn = document.getElementById('addCardBtn');
     const topAddBankBtn = document.getElementById('topAddBankBtn');
+    const paymentMethodsSection = document.getElementById('paymentMethodsSection');
     const paymentStatus = document.getElementById('paymentStatus');
 
     if (!bankAccountForm || !cardForm || !addBankAccountBtn || !addCardBtn) {
       return;
+    }
+
+    // Toggle payment methods section when top Add Bank button is clicked
+    if (topAddBankBtn && paymentMethodsSection) {
+      topAddBankBtn.addEventListener('click', () => {
+        paymentMethodsSection.hidden = !paymentMethodsSection.hidden;
+        if (!paymentMethodsSection.hidden) {
+          paymentMethodsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
     }
 
     const paymentForms = [bankAccountForm, cardForm];
@@ -346,9 +357,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     addBankAccountBtn.addEventListener('click', () => showPaymentForm(bankAccountForm));
     addCardBtn.addEventListener('click', () => showPaymentForm(cardForm));
-    if (topAddBankBtn) {
-      topAddBankBtn.addEventListener('click', () => showPaymentForm(bankAccountForm));
-    }
 
     document.querySelectorAll('[data-close-form]').forEach((closeButton) => {
       closeButton.addEventListener('click', () => {
@@ -411,3 +419,208 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
   });
+
+  // Holdings Management and Currency Conversion
+  const initializeHoldings = () => {
+    const holdingsTableBody = document.getElementById('holdingsTableBody');
+    const preferredCurrencySelect = document.getElementById('preferredCurrency');
+    const totalHoldingsValue = document.getElementById('totalHoldingsValue');
+    const holdingsChange = document.getElementById('holdingsChange');
+    const assetCount = document.getElementById('assetCount');
+    const currencyLabel = document.getElementById('currencyLabel');
+
+    if (!holdingsTableBody || !preferredCurrencySelect) {
+      return;
+    }
+
+    // Sample holdings data
+    const userHoldings = [
+      { symbol: 'BTC', amount: 0.5, name: 'Bitcoin' },
+      { symbol: 'ETH', amount: 5.2, name: 'Ethereum' },
+      { symbol: 'SOL', amount: 25.0, name: 'Solana' },
+      { symbol: 'DOGE', amount: 500, name: 'Dogecoin' },
+      { symbol: 'ADA', amount: 1000, name: 'Cardano' }
+    ];
+
+    // Currency symbols and names
+    const currencyMap = {
+      usd: { symbol: '$', name: 'USD', rate: 1 },
+      eur: { symbol: '€', name: 'EUR', rate: 0.92 },
+      gbp: { symbol: '£', name: 'GBP', rate: 0.79 },
+      jmd: { symbol: 'J$', name: 'JMD', rate: 154.5 },
+      bbd: { symbol: 'Bds$', name: 'BBD', rate: 2.02 },
+      ttd: { symbol: 'TT$', name: 'TTD', rate: 6.75 },
+      xcd: { symbol: 'EC$', name: 'XCD', rate: 2.70 }
+    };
+
+    let exchangeRates = {};
+    let marketData = {};
+
+    // Fetch current crypto prices
+    const fetchHoldingsPrices = async () => {
+      try {
+        const holdingIds = userHoldings.map(h => {
+          const idMap = {
+            'BTC': 'bitcoin',
+            'ETH': 'ethereum',
+            'SOL': 'solana',
+            'DOGE': 'dogecoin',
+            'ADA': 'cardano'
+          };
+          return idMap[h.symbol];
+        }).join(',');
+
+        const response = await fetch(
+          `https://api.coingecko.com/api/v3/simple/price?ids=${holdingIds}&vs_currencies=usd&include_24hr_change=true`
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          marketData = data;
+          renderHoldings();
+        }
+      } catch (error) {
+        console.error('Error fetching holdings prices:', error);
+        renderHoldings();
+      }
+    };
+
+    // Get exchange rates for currency conversion
+    const fetchExchangeRates = async () => {
+      try {
+        const response = await fetch(
+          'https://api.exchangerate-api.com/v4/latest/USD'
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          exchangeRates = data.rates;
+          fetchHoldingsPrices();
+        } else {
+          // Fallback to predefined rates if API fails
+          exchangeRates = {
+            USD: 1,
+            EUR: 0.92,
+            GBP: 0.79,
+            JMD: 154.5,
+            BBD: 2.02,
+            TTD: 6.75,
+            XCD: 2.70
+          };
+          fetchHoldingsPrices();
+        }
+      } catch (error) {
+        console.error('Error fetching exchange rates:', error);
+        // Use fallback rates
+        exchangeRates = {
+          USD: 1,
+          EUR: 0.92,
+          GBP: 0.79,
+          JMD: 154.5,
+          BBD: 2.02,
+          TTD: 6.75,
+          XCD: 2.70
+        };
+        fetchHoldingsPrices();
+      }
+    };
+
+    // Format currency value with symbol and appropriate decimal places
+    const formatCurrencyValue = (value, currency) => {
+      const currencyInfo = currencyMap[currency];
+      const decimals = ['jmd', 'bbd', 'ttd', 'xcd'].includes(currency) ? 2 : 2;
+      const formatted = new Intl.NumberFormat('en-US', {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
+      }).format(value);
+      return `${currencyInfo.symbol}${formatted}`;
+    };
+
+    // Render holdings table
+    const renderHoldings = () => {
+      const selectedCurrency = preferredCurrencySelect.value;
+      const currencyInfo = currencyMap[selectedCurrency];
+      let totalValue = 0;
+      let totalChange = 0;
+
+      holdingsTableBody.innerHTML = '';
+
+      userHoldings.forEach(holding => {
+        const idMap = {
+          'BTC': 'bitcoin',
+          'ETH': 'ethereum',
+          'SOL': 'solana',
+          'DOGE': 'dogecoin',
+          'ADA': 'cardano'
+        };
+
+        const coinId = idMap[holding.symbol];
+        const priceData = marketData[coinId] || {};
+        const priceUSD = priceData.usd || 0;
+        const change24h = priceData.usd_24h_change || 0;
+
+        // Convert price to selected currency
+        const exchangeRate = exchangeRates[currencyInfo.name] || currencyMap[selectedCurrency].rate;
+        const priceInCurrency = priceUSD * exchangeRate;
+        const holdingValueUSD = priceUSD * holding.amount;
+        const holdingValueInCurrency = holdingValueUSD * exchangeRate;
+
+        totalValue += holdingValueInCurrency;
+        totalChange += holdingValueUSD * (change24h / 100);
+
+        const changeClass = change24h >= 0 ? 'positive' : 'negative';
+        const changeSign = change24h >= 0 ? '+' : '';
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>
+            <div class="asset-name">
+              <span class="asset-badge">${holding.symbol.charAt(0).toUpperCase()}</span>
+              <div>
+                <strong>${holding.symbol}</strong><br>
+                <small>${holding.name}</small>
+              </div>
+            </div>
+          </td>
+          <td><strong>${holding.amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 8 })}</strong></td>
+          <td>${formatCurrencyValue(priceInCurrency, selectedCurrency)}</td>
+          <td><strong>${formatCurrencyValue(holdingValueInCurrency, selectedCurrency)}</strong></td>
+          <td>
+            <span class="price-change ${changeClass}">
+              ${changeSign}${change24h.toFixed(2)}%
+            </span>
+          </td>
+        `;
+        holdingsTableBody.appendChild(row);
+      });
+
+      // Update summary
+      const changeClass = totalChange >= 0 ? 'positive' : 'negative';
+      const changeSign = totalChange >= 0 ? '+' : '';
+      totalHoldingsValue.textContent = formatCurrencyValue(totalValue, selectedCurrency);
+      holdingsChange.textContent = `${changeSign}${formatCurrencyValue(totalChange, selectedCurrency)}`;
+      holdingsChange.className = `summary-value ${changeClass}`;
+      assetCount.textContent = userHoldings.length;
+      currencyLabel.textContent = currencyInfo.name;
+    };
+
+    // Handle currency selection change
+    preferredCurrencySelect.addEventListener('change', () => {
+      renderHoldings();
+    });
+
+    // Load currency preferences from localStorage
+    const savedCurrency = localStorage.getItem('preferredCurrency') || 'usd';
+    preferredCurrencySelect.value = savedCurrency;
+
+    // Save currency preference
+    preferredCurrencySelect.addEventListener('change', () => {
+      localStorage.setItem('preferredCurrency', preferredCurrencySelect.value);
+    });
+
+    // Initial load
+    fetchExchangeRates();
+  };
+
+  // Initialize holdings when page loads
+  initializeHoldings();

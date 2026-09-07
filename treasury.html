@@ -51,6 +51,60 @@
           <button class="btn btn-primary" type="button" id="topAddBankBtn">🏦 Add Bank</button>
         </div>
 
+        <div class="holdings-section card-glass">
+          <div class="holdings-header">
+            <div>
+              <span class="eyebrow">Your Portfolio</span>
+              <h3>Crypto Holdings</h3>
+            </div>
+            <div class="currency-selector">
+              <label for="preferredCurrency">Preferred Currency:</label>
+              <select id="preferredCurrency" name="preferredCurrency">
+                <option value="usd">USD ($)</option>
+                <option value="eur">EUR (€)</option>
+                <option value="gbp">GBP (£)</option>
+                <option value="jmd">JMD (J$)</option>
+                <option value="bbd">BBD (Bds$)</option>
+                <option value="ttd">TTD (TT$)</option>
+                <option value="xcd">XCD (EC$)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="holdings-summary">
+            <div class="summary-card">
+              <span class="summary-label">Total Holdings Value</span>
+              <strong class="summary-value" id="totalHoldingsValue">$0.00</strong>
+            </div>
+            <div class="summary-card">
+              <span class="summary-label">24h Change</span>
+              <strong class="summary-value" id="holdingsChange">+$0.00</strong>
+            </div>
+            <div class="summary-card">
+              <span class="summary-label">Number of Assets</span>
+              <strong class="summary-value" id="assetCount">0</strong>
+            </div>
+          </div>
+
+          <div class="holdings-list">
+            <h4>Your Assets</h4>
+            <table class="holdings-table">
+              <thead>
+                <tr>
+                  <th>Asset</th>
+                  <th>Amount</th>
+                  <th>Unit Price</th>
+                  <th>Value in <span id="currencyLabel">USD</span></th>
+                  <th>24h Change</th>
+                </tr>
+              </thead>
+              <tbody id="holdingsTableBody">
+                <!-- Holdings will be populated here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
         <div class="wallet-grid">
           <div class="wallet-card card-glass">
             <h3>Deposit</h3>
@@ -97,7 +151,7 @@
             </div>
           </div>
 
-          <div class="payment-methods card-glass">
+          <div class="payment-methods card-glass" id="paymentMethodsSection" hidden>
             <div class="payment-methods-head">
               <div>
                 <span class="eyebrow">Payment methods</span>
@@ -341,5 +395,6 @@
     <div id="toast" class="toast" aria-live="polite">Welcome to Makings Treasury.</div>
 
     <script src="script.js"></script>
+    <script src="auth.js"></script>
   </body>
 </html>
