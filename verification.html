@@ -576,9 +576,9 @@
     <div id="recaptcha-container"></div>
 
     <script type="module">
-      import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-      import { getAuth, signInWithPhoneNumber, RecaptchaVerifier } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-      import { getFirestore, doc, setDoc, collection, query, where, getDocs, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+      import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js';
+      import { getAuth, signInWithPhoneNumber, RecaptchaVerifier } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js';
+      import { getFirestore, doc, setDoc, collection, query, where, getDocs, serverTimestamp } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js';
 
       const firebaseConfig = {
         apiKey: 'AIzaSyBue8CgOU3cd8wjt9oeMDqaNkpBiraDNYw',
@@ -638,6 +638,14 @@
               showToast('reCAPTCHA expired. Please request a new OTP.');
             }
           });
+        }
+      }
+
+      function resetPhoneVerification() {
+        window.phoneConfirmationResult = null;
+        if (window.recaptchaVerifier) {
+          window.recaptchaVerifier.clear();
+          window.recaptchaVerifier = null;
         }
       }
 
@@ -746,10 +754,9 @@
         } catch (error) {
           console.error(error);
           showToast('Unable to send OTP. Please check the phone number and try again.');
-          if (window.recaptchaVerifier) {
-            window.recaptchaVerifier.clear();
-            window.recaptchaVerifier = null;
-          }
+          resetPhoneVerification();
+          btn.textContent = 'Send phone OTP';
+          btn.disabled = false;
         }
       });
 
