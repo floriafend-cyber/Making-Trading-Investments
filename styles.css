@@ -1,10 +1,14 @@
 :root {
   --primary-gold: #d4af37;
-  --dark-gold: #aa8c2c;
-  --black: #0a0a0a;
-  --dark-red: #8b0000;
-  --bright-red: #cc0000;
-  --light-gold: #f5deb3;
+  --dark-gold: #b38a22;
+  --black: #050505;
+  --charcoal: #111111;
+  --white: #f5f5f5;
+  --soft-white: #d9d9d9;
+  --gold-soft: #f7e8aa;
+  --light-gold: #f3f3f3;
+  --dark-red: #050505;
+  --bright-red: #d4af37;
 }
 
 * {
@@ -20,8 +24,9 @@ html {
 
 body {
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: linear-gradient(135deg, var(--black) 0%, var(--dark-red) 50%, var(--black) 100%);
-  color: var(--primary-gold);
+  background: radial-gradient(circle at top, rgba(212, 175, 55, 0.12), transparent 25%),
+    linear-gradient(135deg, var(--black) 0%, var(--charcoal) 35%, var(--black) 100%);
+  color: var(--white);
   line-height: 1.6;
   background-attachment: fixed;
   min-height: 100vh;
@@ -30,7 +35,7 @@ body {
 
 /* Header & Navigation */
 header.topbar {
-  background: linear-gradient(90deg, var(--black) 0%, var(--dark-red) 50%, var(--black) 100%);
+  background: rgba(10, 10, 10, 0.95);
   border-bottom: 2px solid var(--primary-gold);
   padding: 1rem 2rem;
   display: flex;
@@ -39,7 +44,7 @@ header.topbar {
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+  box-shadow: 0 2px 12px rgba(212, 175, 55, 0.18);
 }
 
 .brand-wrap {
@@ -217,50 +222,34 @@ header.topbar {
 /* Buttons */
 .btn {
   padding: 0.75rem 1.5rem;
-  border: none;
+  border: 2px solid var(--primary-gold);
   border-radius: 6px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 14px;
   text-decoration: none;
   display: inline-block;
-}
-
-.btn-primary {
   background: var(--primary-gold);
   color: var(--black);
-  border: 2px solid var(--primary-gold);
+  box-shadow: 0 0 18px rgba(212, 175, 55, 0.18);
 }
 
-.btn-primary:hover {
-  background: var(--light-gold);
-  border-color: var(--light-gold);
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
-  transform: scale(1.05);
-}
-
-.btn-secondary {
-  background: transparent;
-  color: var(--primary-gold);
-  border: 2px solid var(--primary-gold);
-}
-
-.btn-secondary:hover {
-  background: var(--primary-gold);
-  color: var(--black);
-}
-
+.btn-primary,
+.btn-secondary,
 .btn-ghost {
-  background: transparent;
-  color: var(--primary-gold);
-  border: 2px solid var(--primary-gold);
+  background: var(--primary-gold);
+  color: var(--black);
+  border-color: var(--primary-gold);
 }
 
+.btn-primary:hover,
+.btn-secondary:hover,
 .btn-ghost:hover {
-  background: rgba(212, 175, 55, 0.1);
-  border-color: var(--light-gold);
-  color: var(--light-gold);
+  background: var(--gold-soft);
+  border-color: var(--gold-soft);
+  box-shadow: 0 0 22px rgba(212, 175, 55, 0.4);
+  transform: scale(1.03);
 }
 
   .btn-action {
@@ -273,58 +262,23 @@ header.topbar {
     min-width: 150px;
   }
 
-  .btn-deposit {
-    background: linear-gradient(135deg, #1e7a2e 0%, #2ea63c 100%);
-    color: white;
-  }
-
-  .btn-deposit:hover {
-    background: linear-gradient(135deg, #2ea63c 0%, #38c94f 100%);
-    box-shadow: 0 0 20px rgba(46, 166, 60, 0.6);
-    transform: translateY(-2px);
-  }
-
-  .btn-withdraw {
-    background: linear-gradient(135deg, #7a1e1e 0%, #a62e2e 100%);
-    color: white;
-  }
-
-  .btn-withdraw:hover {
-    background: linear-gradient(135deg, #a62e2e 0%, #c9383a 100%);
-    box-shadow: 0 0 20px rgba(166, 46, 46, 0.6);
-    transform: translateY(-2px);
-  }
-
-  .btn-transfer {
-    background: linear-gradient(135deg, #1e4a7a 0%, #2e6ba6 100%);
-    color: white;
-  }
-
-  .btn-transfer:hover {
-    background: linear-gradient(135deg, #2e6ba6 0%, #3a7ec9 100%);
-    box-shadow: 0 0 20px rgba(46, 107, 166, 0.6);
-    transform: translateY(-2px);
-  }
-
-  .btn-send {
-    background: linear-gradient(135deg, #7a4a1e 0%, #a66b2e 100%);
-    color: white;
-  }
-
-  .btn-send:hover {
-    background: linear-gradient(135deg, #a66b2e 0%, #c9893a 100%);
-    box-shadow: 0 0 20px rgba(166, 107, 46, 0.6);
-    transform: translateY(-2px);
-  }
-
+  .btn-deposit,
+  .btn-withdraw,
+  .btn-transfer,
+  .btn-send,
   .btn-bills {
-    background: linear-gradient(135deg, #5a1e7a 0%, #8b2eaa 100%);
-    color: white;
+    background: linear-gradient(135deg, #d4af37 0%, #f2d77c 100%);
+    color: #0b0b0b;
+    border: 2px solid #d4af37;
   }
 
+  .btn-deposit:hover,
+  .btn-withdraw:hover,
+  .btn-transfer:hover,
+  .btn-send:hover,
   .btn-bills:hover {
-    background: linear-gradient(135deg, #8b2eaa 0%, #a93ac9 100%);
-    box-shadow: 0 0 20px rgba(139, 46, 170, 0.6);
+    background: linear-gradient(135deg, #f2d77c 0%, #f7e8aa 100%);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
     transform: translateY(-2px);
   }
 
@@ -528,7 +482,7 @@ section {
 }
 
 .eyebrow {
-  color: var(--bright-red);
+  color: var(--gold-soft);
   font-weight: 600;
   font-size: 12px;
   text-transform: uppercase;
@@ -642,7 +596,7 @@ section {
 }
 
 .trend-up {
-  color: #00ff00;
+  color: var(--gold-soft);
   font-weight: 600;
 }
 
@@ -711,12 +665,12 @@ canvas {
 }
 
 .trend-down {
-  color: #ff5c5c;
+  color: var(--soft-white);
   font-weight: 700;
 }
 
 .trend-up {
-  color: #18d77a;
+  color: var(--gold-soft);
   font-weight: 700;
 }
 
@@ -1327,6 +1281,98 @@ canvas {
   text-align: center;
 }
 
+.card-customizer {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(212, 175, 55, 0.28);
+}
+
+.card-customizer-header {
+  margin-bottom: 1.5rem;
+}
+
+.card-customizer-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.custom-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.custom-field label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: var(--light-gold);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.custom-field select,
+.custom-field input,
+.custom-field textarea {
+  width: 100%;
+  background: rgba(212, 175, 55, 0.08);
+  color: var(--primary-gold);
+  border: 1px solid var(--primary-gold);
+  border-radius: 8px;
+  padding: 0.75rem 0.9rem;
+  font: inherit;
+}
+
+.custom-field textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.form-field-wide {
+  grid-column: 1 / -1;
+}
+
+.card-preview {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.card-preview-inner {
+  width: min(100%, 360px);
+  min-height: 200px;
+  padding: 1.25rem;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #d9d9d9 0%, #8f8f8f 25%, #2e2e2e 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #111;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+}
+
+.preview-brand {
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.preview-chip {
+  font-size: 1.4rem;
+  letter-spacing: 0.25rem;
+}
+
+.card-preview-inner strong {
+  font-size: 1.1rem;
+  letter-spacing: 0.14rem;
+}
+
+.card-preview-inner small {
+  font-size: 0.8rem;
+  letter-spacing: 0.08rem;
+  text-transform: uppercase;
+}
+
 /* Coin Section */
 .coin-layout {
   display: grid;
@@ -1499,6 +1545,85 @@ canvas {
   color: var(--light-gold);
   font-size: 14px;
   line-height: 1.6;
+}
+
+.atm-locator {
+  margin-top: 3rem;
+}
+
+.atm-locator-head {
+  margin-bottom: 1.5rem;
+}
+
+.atm-search-row {
+  display: flex;
+  gap: 1rem;
+  align-items: end;
+  margin-bottom: 1.5rem;
+}
+
+.atm-search-row label {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: var(--light-gold);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.atm-search-row input {
+  background: rgba(212, 175, 55, 0.08);
+  color: var(--primary-gold);
+  border: 1px solid var(--primary-gold);
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  font: inherit;
+}
+
+.atm-map-layout {
+  display: grid;
+  grid-template-columns: 1.5fr 0.8fr;
+  gap: 1.5rem;
+}
+
+.atm-map-wrap {
+  min-height: 340px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+}
+
+.atm-map-wrap iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  min-height: 340px;
+}
+
+.atm-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.atm-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  background: rgba(212, 175, 55, 0.05);
+}
+
+.atm-item strong {
+  color: var(--primary-gold);
+}
+
+.atm-item span,
+.atm-item small {
+  color: var(--light-gold);
 }
 
 .wallet-guide {

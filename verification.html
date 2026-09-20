@@ -6,16 +6,16 @@
     <title>Makings Verification</title>
     <style>
       :root {
-        --bg: #06080d;
-        --bg-elevated: #10161d;
-        --panel: rgba(18, 24, 31, 0.96);
+        --bg: #050505;
+        --bg-elevated: #111111;
+        --panel: rgba(17, 17, 17, 0.96);
         --gold: #d4af37;
-        --gold-soft: #f7d777;
+        --gold-soft: #f7e8aa;
         --white: #f5f5f5;
-        --muted: #bcc3cb;
-        --border: rgba(212, 175, 55, 0.25);
-        --success: #2ac17d;
-        --danger: #ff6b6b;
+        --muted: #d0d0d0;
+        --border: rgba(212, 175, 55, 0.35);
+        --success: #d4af37;
+        --danger: #f5f5f5;
       }
 
       * { box-sizing: border-box; }
@@ -25,8 +25,8 @@
         min-height: 100%;
         font-family: Arial, Helvetica, sans-serif;
         background:
-          radial-gradient(circle at top, rgba(212, 175, 55, 0.13), transparent 35%),
-          linear-gradient(180deg, #050609 0%, #0a0d12 100%);
+          radial-gradient(circle at top, rgba(212, 175, 55, 0.12), transparent 35%),
+          linear-gradient(180deg, #050505 0%, #101010 100%);
         color: var(--white);
       }
 
@@ -90,8 +90,8 @@
       .top-links a, .top-links button {
         text-decoration: none;
         color: var(--white);
-        background: transparent;
-        border: 1px solid var(--border);
+        background: var(--gold);
+        border: 1px solid var(--gold);
         border-radius: 10px;
         padding: 9px 14px;
         cursor: pointer;
@@ -247,9 +247,9 @@
       }
 
       .secondary-btn {
-        background: rgba(255,255,255,0.04);
-        color: var(--white);
-        border: 1px solid var(--border);
+        background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+        color: #17120d;
+        border: 1px solid var(--gold);
       }
 
       .verify-box,
@@ -375,6 +375,7 @@
         <div class="top-links">
           <a href="index.html">Home</a>
           <button type="button" class="primary" onclick="document.querySelector('#loginTab').click()">Login</button>
+          <button type="button" class="primary" onclick="document.querySelector('#signupTab').click()">Sign Up</button>
         </div>
       </header>
 
@@ -490,6 +491,24 @@
                     <button class="secondary-btn" type="button" id="sendEmailVerify">Send email verification</button>
                     <button class="secondary-btn" type="button" id="sendPhoneVerify">Send phone verification</button>
                   </div>
+                  <div class="otp-box" id="emailOtpBox" style="display: none; margin-top: 1rem;">
+                    <label>
+                      Enter email OTP code
+                      <input type="text" id="emailOtpCode" maxlength="6" placeholder="6-digit code" />
+                    </label>
+                    <div class="verify-actions" style="margin-top: 0.75rem;">
+                      <button class="primary-btn" type="button" id="verifyEmailOtp">Verify email OTP</button>
+                    </div>
+                  </div>
+                  <div class="otp-box" id="otpBox" style="display: none; margin-top: 1rem;">
+                    <label>
+                      Enter phone OTP code
+                      <input type="text" id="otpCode" maxlength="6" placeholder="6-digit code" />
+                    </label>
+                    <div class="verify-actions" style="margin-top: 0.75rem;">
+                      <button class="primary-btn" type="button" id="verifyPhoneOtp">Verify phone OTP</button>
+                    </div>
+                  </div>
                 </div>
                 <div class="step-actions">
                   <button class="secondary-btn prev-step" type="button">Back</button>
@@ -514,7 +533,7 @@
                   </label>
                   <label>
                     Take selfie for identity match
-                    <input type="file" accept="image/*" capture="user" />
+                    <input type="file" accept="image/*" />
                   </label>
                 </div>
                 <div class="step-actions">
@@ -554,16 +573,45 @@
     </div>
 
     <div id="toast" class="toast" aria-live="polite">Saved successfully.</div>
+    <div id="recaptcha-container"></div>
 
-    <script src="auth.js"></script>
-    <script>
+    <script type="module">
+      import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+      import { getAuth, signInWithPhoneNumber, RecaptchaVerifier } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+      import { getFirestore, doc, setDoc, collection, query, where, getDocs, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+
+      const firebaseConfig = {
+        apiKey: 'AIzaSyBue8CgOU3cd8wjt9oeMDqaNkpBiraDNYw',
+        authDomain: 'billionaires-87519.firebaseapp.com',
+        projectId: 'billionaires-87519',
+        storageBucket: 'billionaires-87519.firebasestorage.app',
+        messagingSenderId: '799625535151',
+        appId: '1:799625535151:web:283629136b45f40afc7e5a',
+        measurementId: 'G-X16NGMSE4B'
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const db = getFirestore(app);
+      auth.languageCode = 'en';
+
+      window.firebaseAuth = auth;
+      window.firestoreDb = db;
+      window.phoneConfirmationResult = null;
+      window.isPhoneVerified = false;
+
       const loginTab = document.getElementById('loginTab');
       const signupTab = document.getElementById('signupTab');
       const loginBox = document.getElementById('loginBox');
       const signupBox = document.getElementById('signupBox');
       const toast = document.getElementById('toast');
       const signupSteps = Array.from(document.querySelectorAll('.signup-step'));
+      const emailOtpBox = document.getElementById('emailOtpBox');
+      const emailOtpCodeInput = document.getElementById('emailOtpCode');
+      const otpBox = document.getElementById('otpBox');
+      const otpCodeInput = document.getElementById('otpCode');
       let currentStep = 0;
+      window.isEmailVerified = false;
 
       function renderSignupStep(stepIndex) {
         currentStep = Math.max(0, Math.min(stepIndex, signupSteps.length - 1));
@@ -577,6 +625,20 @@
         toast.classList.add('show');
         clearTimeout(showToast.timer);
         showToast.timer = setTimeout(() => toast.classList.remove('show'), 5000);
+      }
+
+      function setupRecaptcha() {
+        if (!window.recaptchaVerifier) {
+          window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+            size: 'invisible',
+            callback: () => {
+              console.log('reCAPTCHA solved');
+            },
+            'expired-callback': () => {
+              showToast('reCAPTCHA expired. Please request a new OTP.');
+            }
+          });
+        }
       }
 
       loginTab.addEventListener('click', () => {
@@ -617,23 +679,122 @@
 
       document.getElementById('sendEmailVerify').addEventListener('click', () => {
         const btn = document.getElementById('sendEmailVerify');
-        btn.textContent = 'Email verification sent';
+        const emailInput = document.querySelector('input[name="email"]');
+        const email = emailInput ? emailInput.value.trim() : '';
+
+        if (!email) {
+          showToast('Please enter your email before sending the verification code.');
+          emailInput?.focus();
+          return;
+        }
+
+        const code = String(Math.floor(100000 + Math.random() * 900000));
+        window.emailVerificationCode = code;
+        emailOtpBox.style.display = 'block';
+        emailOtpCodeInput.focus();
+        btn.textContent = 'Email verification code sent';
         btn.disabled = true;
-        showToast('Email verification sent successfully.');
+        showToast(`Email verification code sent. Use code ${code} to verify your email.`);
       });
 
-      document.getElementById('sendPhoneVerify').addEventListener('click', () => {
+      document.getElementById('verifyEmailOtp').addEventListener('click', () => {
+        const code = emailOtpCodeInput.value.trim();
+
+        if (!window.emailVerificationCode) {
+          showToast('Please request an email verification code first.');
+          return;
+        }
+
+        if (!code || code.length !== 6) {
+          showToast('Please enter the 6-digit email verification code.');
+          emailOtpCodeInput.focus();
+          return;
+        }
+
+        if (code === window.emailVerificationCode) {
+          window.isEmailVerified = true;
+          document.getElementById('verifyEmailOtp').textContent = 'Email verified';
+          document.getElementById('verifyEmailOtp').disabled = true;
+          emailOtpCodeInput.disabled = true;
+          showToast('Email verified successfully.');
+        } else {
+          showToast('Invalid email verification code. Please try again.');
+        }
+      });
+
+      document.getElementById('sendPhoneVerify').addEventListener('click', async () => {
         const btn = document.getElementById('sendPhoneVerify');
-        btn.textContent = 'Phone verification sent';
-        btn.disabled = true;
-        showToast('Phone verification sent successfully.');
+        const phoneInput = document.querySelector('input[name="phone"]');
+        const phone = phoneInput ? phoneInput.value.trim() : '';
+
+        if (!phone) {
+          showToast('Please enter your phone number before sending the OTP.');
+          phoneInput?.focus();
+          return;
+        }
+
+        try {
+          setupRecaptcha();
+          const formattedPhone = phone.startsWith('+') ? phone : `+${phone}`;
+          const confirmationResult = await signInWithPhoneNumber(auth, formattedPhone, window.recaptchaVerifier);
+          window.phoneConfirmationResult = confirmationResult;
+          otpBox.style.display = 'block';
+          otpCodeInput.focus();
+          btn.textContent = 'OTP sent';
+          btn.disabled = true;
+          showToast('OTP sent. Please enter the 6-digit code.');
+        } catch (error) {
+          console.error(error);
+          showToast('Unable to send OTP. Please check the phone number and try again.');
+          if (window.recaptchaVerifier) {
+            window.recaptchaVerifier.clear();
+            window.recaptchaVerifier = null;
+          }
+        }
       });
 
-      document.getElementById('signupForm').addEventListener('submit', (event) => {
+      document.getElementById('verifyPhoneOtp').addEventListener('click', async () => {
+        const code = otpCodeInput.value.trim();
+
+        if (!window.phoneConfirmationResult) {
+          showToast('Please request an OTP first.');
+          return;
+        }
+
+        if (!code || code.length !== 6) {
+          showToast('Please enter the 6-digit OTP code.');
+          otpCodeInput.focus();
+          return;
+        }
+
+        try {
+          await window.phoneConfirmationResult.confirm(code);
+          window.isPhoneVerified = true;
+          document.getElementById('verifyPhoneOtp').textContent = 'Verified';
+          document.getElementById('verifyPhoneOtp').disabled = true;
+          otpCodeInput.disabled = true;
+          showToast('Phone number verified successfully.');
+        } catch (error) {
+          console.error(error);
+          showToast('Invalid OTP. Please check the code and try again.');
+        }
+      });
+
+      document.getElementById('signupForm').addEventListener('submit', async (event) => {
         event.preventDefault();
         const formData = new FormData(event.target);
         const password = formData.get('password');
         const confirmPassword = formData.get('confirmPassword');
+
+        if (!window.isEmailVerified) {
+          showToast('Please verify your email with the OTP before creating the account.');
+          return;
+        }
+
+        if (!window.isPhoneVerified) {
+          showToast('Please verify your phone number with the OTP before creating the account.');
+          return;
+        }
 
         if (password !== confirmPassword) {
           showToast('Passwords do not match. Please check again.');
@@ -649,15 +810,51 @@
           return;
         }
 
-        window.MakingsAuth.saveAccounts([...accounts, user]);
-        window.MakingsAuth.setCurrentUser(user);
-        showToast('Account created successfully. Welcome to Makings.');
-        
-        setTimeout(() => {
-          window.location.href = 'index.html#trade';
-        }, 1500);
-        
-        event.target.reset();
+        try {
+          const customersRef = collection(window.firestoreDb, 'customers');
+          const usernameQuery = query(customersRef, where('username', '==', user.username));
+          const emailQuery = query(customersRef, where('email', '==', user.email));
+
+          const [usernameSnapshot, emailSnapshot] = await Promise.all([
+            getDocs(usernameQuery),
+            getDocs(emailQuery)
+          ]);
+
+          if (!usernameSnapshot.empty || !emailSnapshot.empty) {
+            showToast('That username or email is already registered in Firestore.');
+            return;
+          }
+
+          const customerRecord = {
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            phone: user.phone,
+            username: user.username,
+            dob: user.dob,
+            countryBirth: user.countryBirth,
+            password: user.password,
+            emailVerified: true,
+            phoneVerified: true,
+            createdAt: serverTimestamp()
+          };
+
+          await setDoc(doc(window.firestoreDb, 'customers', user.username), customerRecord);
+
+          user.phoneVerified = true;
+          window.MakingsAuth.saveAccounts([...accounts, user]);
+          window.MakingsAuth.setCurrentUser(user);
+          showToast('Account created successfully and saved to Firestore. Welcome to Makings.');
+
+          setTimeout(() => {
+            window.location.href = 'index.html#trade';
+          }, 1500);
+
+          event.target.reset();
+        } catch (error) {
+          console.error('Firestore save failed:', error);
+          showToast('We could not save your account to Firestore. Please try again.');
+        }
       });
 
       document.getElementById('loginForm').addEventListener('submit', (event) => {
@@ -678,7 +875,7 @@
         if (savedUser && validPassword) {
           window.MakingsAuth.setCurrentUser(savedUser);
           showToast('Login successful. Welcome back.');
-          
+
           setTimeout(() => {
             window.location.href = 'index.html#trade';
           }, 1500);

@@ -83,3 +83,15 @@
 
   document.addEventListener('DOMContentLoaded', renderHeader);
 })();
+
+// models/User.js
+const mongoose = require('mongoose');
+
+const UserSchema = new mongoose.Schema({
+  email: String,
+  passwordHash: String,
+  balance: Number,
+  trades: [{ symbol: String, side: String, quantity: Number, price: Number, date: Date }]
+});
+
+module.exports = mongoose.model('User', UserSchema);
