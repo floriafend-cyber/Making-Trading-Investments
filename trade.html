@@ -48,7 +48,11 @@
             <span class="eyebrow">Live assets</span>
             <h2>Crypto, stocks, commodities, and brand markets</h2>
           </div>
-          <button class="btn btn-ghost">View all</button>
+          <div class="market-header-actions">
+            <button id="indicatorButton" class="indicator-button" type="button">Indicator</button>
+            <button id="marketCreateIndicator" class="btn btn-primary" type="button">+ Create</button>
+            <button class="btn btn-ghost">View all</button>
+          </div>
         </div>
 
         <div class="market-overview">
@@ -101,20 +105,17 @@
           </aside>
         </div>
 
-        <div class="market-chart-wrap card-glass">
-          <div class="chart-header">
-            <div>
-              <span class="eyebrow">Spot chart</span>
-              <h3 id="marketChartTitle">BTC / USD live market</h3>
-            </div>
-            <div class="chart-toggle">
-              <button class="is-active" data-chart-symbol="BTC">BTC</button>
-              <button data-chart-symbol="ETH">ETH</button>
-              <button data-chart-symbol="XRP">XRP</button>
-              <button data-chart-symbol="SOL">SOL</button>
-            </div>
+        <div id="indicatorPanel" class="indicator-panel card-glass" hidden>
+          <div class="indicator-panel-head">
+            <div><span class="eyebrow">Indicator workspace</span><h3>Find and tune indicators</h3></div>
+            <button id="closeIndicatorPanel" class="text-button" type="button">Close</button>
           </div>
-          <canvas id="marketCanvas" width="1200" height="360" aria-label="Detailed market chart"></canvas>
+          <div class="indicator-panel-actions">
+            <label class="search-field indicator-search"><span>Search</span><input id="indicatorSearch" type="search" placeholder="Find by indicator name" /></label>
+            <button id="openIndicatorBuilder" class="btn btn-primary" type="button">+ Create indicator</button>
+            <button id="openLibrary" class="text-button" type="button">Import JSON</button>
+          </div>
+          <div id="indicatorLibrary" class="indicator-library"></div>
         </div>
 
         <div class="market-table-wrap card-glass">
@@ -146,102 +147,32 @@
       </section>
 
       <section class="trade-section section-shell" id="trade">
-        <div class="section-head">
+        <div class="section-head terminal-heading">
           <div>
-            <span class="eyebrow">Trade center</span>
-            <h2>Investment options and secure funding</h2>
+            <span class="eyebrow">Binance market terminal</span>
+            <h2>Trade spot, margin, and futures from one workspace</h2>
+            <p class="section-note">Live public market data. Orders below run in paper mode until a secure server-side exchange connection is enabled.</p>
           </div>
+          <span class="live-status"><i></i><span id="binanceConnection">Connecting to Binance</span></span>
         </div>
 
-        <div class="trade-layout">
-          <div class="card-glass trading-box">
-            <h3>Deposit to start trading</h3>
-            <p>
-              Before starting trading, funds must be deposited into your account/wallet first.
-            </p>
-            <form class="mini-form" id="depositForm">
-              <label>
-                Deposit amount
-                <input type="number" min="50" step="10" value="2500" />
-              </label>
-              <label>
-                Funding source
-                <select>
-                  <option>Bank account</option>
-                  <option>Wallet vault</option>
-                  <option>Credit card</option>
-                  <option>Wire transfer</option>
-                </select>
-              </label>
-              <button class="btn btn-primary" type="submit">Deposit funds</button>
-            </form>
-
-            <div class="account-balance">
-              <span>Available balance</span>
-              <strong>$184,250.64</strong>
+        <div class="terminal-grid">
+          <div class="terminal-main card-glass">
+            <div class="terminal-toolbar">
+              <div class="symbol-picker"><label for="terminalSymbol">Market</label><select id="terminalSymbol"><option value="btcusdt">BTC/USDT</option><option value="ethusdt">ETH/USDT</option><option value="solusdt">SOL/USDT</option><option value="bnbusdt">BNB/USDT</option><option value="xrpusdt">XRP/USDT</option><option value="dogeusdt">DOGE/USDT</option></select></div>
+              <div class="market-quote"><strong id="terminalPrice">--</strong><span id="terminalChange">--</span></div>
+              <div class="timeframe-tabs" role="tablist" aria-label="Chart timeframe"><button class="is-active" data-timeframe="1m" type="button">1m</button><button data-timeframe="5m" type="button">5m</button><button data-timeframe="15m" type="button">15m</button><button data-timeframe="1h" type="button">1h</button><button data-timeframe="4h" type="button">4h</button></div>
             </div>
+            <div class="terminal-chart-shell"><canvas id="terminalCanvas" width="1200" height="460" aria-label="Live Binance candlestick chart"></canvas><div class="chart-loading" id="terminalChartStatus">Loading live candles...</div></div>
+            <div class="indicator-strip"><div class="indicator-title"><span>Indicators</span><button id="openIndicatorBuilder" type="button">+ Create</button></div><div id="activeIndicators" class="active-indicators"></div></div>
           </div>
 
-          <div class="card-glass trading-box">
-            <h3>Buy or sell</h3>
-            <form class="mini-form" id="tradeForm">
-              <label>
-                Asset
-                <select>
-                  <option>Bitcoin (BTC)</option>
-                  <option>Ethereum (ETH)</option>
-                  <option>XRP (XRP)</option>
-                  <option>BNB (BNB)</option>
-                  <option>Solana (SOL)</option>
-                  <option>Tether (USDT)</option>
-                </select>
-              </label>
-              <label>
-                Trade type
-                <select>
-                  <option>Buy</option>
-                  <option>Sell</option>
-                </select>
-              </label>
-              <label>
-                Amount
-                <input type="number" min="0.01" step="0.01" value="0.75" />
-              </label>
-              <button class="btn btn-primary" type="submit">Execute trade</button>
-            </form>
-          </div>
         </div>
 
-        <div class="market-chart-wrap card-glass">
-          <div class="chart-header">
-            <div>
-              <span class="eyebrow">Crypto chart</span>
-              <h3 id="tradeChartTitle">Live Cryptocurrency Prices</h3>
-            </div>
-          </div>
-          <div style="height:301px; background-color: #1B2030; overflow:hidden; box-sizing: border-box; border: 1px solid #56667F; border-radius: 4px; text-align: right; line-height:14px; font-size: 12px; font-feature-settings: normal; text-size-adjust: 100%; box-shadow: inset 0 -20px 0 0 #56667F; padding: 0px; margin: 0px; width: 100%;">
-            <div style="height:281px; padding:0px; margin:0px; width: 100%;">
-              <iframe src="https://coinlib.io/widget?type=full_v2&theme=dark&cnt=6&pref_coin_id=1505&graph=yes" width="100%" height="277px" scrolling="auto" marginwidth="0" marginheight="0" frameborder="0" border="0" style="border:0;margin:0;padding:0;"></iframe>
-            </div>
-            <div style="color: #FFFFFF; line-height: 14px; font-weight: 400; font-size: 11px; box-sizing: border-box; padding: 2px 6px; width: 100%; font-family: Verdana, Tahoma, Arial, sans-serif;">
-              <a href="https://coinlib.io" target="_blank" style="font-weight: 500; color: #FFFFFF; text-decoration:none; font-size:11px">Cryptocurrency Prices</a>&nbsp;by Coinlib
-            </div>
-          </div>
-        </div>
+        <aside class="order-panel card-glass market-order-ticket"><div class="order-header"><div><span class="eyebrow">Order ticket</span><h3>Paper execution</h3></div><span class="mode-pill">SIM</span></div><div class="trade-modes" role="tablist" aria-label="Trading product"><button class="is-active" data-trade-mode="spot" type="button">Spot</button><button data-trade-mode="margin" type="button">Margin</button><button data-trade-mode="futures" type="button">Futures</button></div><div class="side-toggle"><button class="is-active buy-side" data-order-side="BUY" type="button">Buy / Long</button><button data-order-side="SELL" type="button">Sell / Short</button></div><form id="terminalOrderForm" class="order-form"><label>Order type<select id="orderType"><option value="MARKET">Market</option><option value="LIMIT">Limit</option></select></label><label>Price (USDT)<input id="orderPrice" type="number" min="0" step="any" placeholder="Market price" /></label><label>Quantity<input id="orderQuantity" type="number" min="0.000001" step="any" value="0.01" required /></label><div class="order-bracket-grid"><label>Stop loss<input id="stopLoss" type="number" min="0" step="any" placeholder="Optional" /></label><label>Take profit<input id="takeProfit" type="number" min="0" step="any" placeholder="Optional" /></label></div><div class="order-estimate"><span>Estimated value</span><strong id="orderEstimate">$0.00</strong></div><button class="btn btn-primary order-submit" type="submit">Place paper order</button><small class="form-hint">Protective exits are monitored in this browser for paper trades.</small></form></aside>
 
-        <div class="investment-options">
-          <h3>Investment options</h3>
-          <div class="option-grid">
-            <span>Crypto growth</span>
-            <span>Long-term holdings</span>
-            <span>Staking</span>
-            <span>Portfolio</span>
-            <span>Index tracking</span>
-            <span>Daily picks</span>
-            <span>Income funds</span>
-            <span>Market futures</span>
-          </div>
-        </div>
+        <div class="terminal-lower-grid"><div class="card-glass data-panel"><div class="panel-title"><div><span class="eyebrow">Positions</span><h3>Open positions</h3></div><strong id="paperBalance">10,000.00 USDT</strong></div><div id="positionsList" class="empty-state">No open paper positions.</div></div></div>
+        <div class="card-glass data-panel orders-history"><div class="panel-title"><div><span class="eyebrow">Execution log</span><h3>Recent orders</h3></div><button class="text-button" id="clearOrders" type="button">Clear</button></div><div id="ordersList" class="orders-list"><div class="empty-state">Your paper orders will appear here.</div></div></div>
       </section>
 
       <section class="news-section section-shell">
@@ -283,7 +214,7 @@
 
     <div id="toast" class="toast" aria-live="polite">Welcome to Makings Trade Center.</div>
 
-    <script src="script.js"></script>
+    <script src="files if needed/script.js"></script>
     <script src="auth.js"></script>
   </body>
 </html>

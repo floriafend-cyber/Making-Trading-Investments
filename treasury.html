@@ -148,7 +148,71 @@
               <button class="btn btn-action btn-transfer" id="transferBtn">↔️ Transfer</button>
               <button class="btn btn-action btn-send" id="sendBtn">📤 Send</button>
               <button class="btn btn-action btn-bills" id="billsBtn">📋 Pay Bills</button>
+              <button class="btn btn-action btn-investment" id="investmentBtn">📈 Investment</button>
             </div>
+          </div>
+
+          <div class="investment-panel card-glass" id="investmentPanel" hidden>
+            <div class="investment-panel-head">
+              <div>
+                <span class="eyebrow">Investment center</span>
+                <h3>Choose an investment type</h3>
+                <p>Select where you would like to start allocating Treasury funds.</p>
+              </div>
+              <button class="text-button" id="closeInvestmentBtn" type="button">Close</button>
+            </div>
+            <div class="investment-choice-grid">
+              <button class="investment-choice" type="button" data-investment="Company">
+                <strong>Company</strong><span>Build exposure to selected businesses.</span><small>Growth focused</small>
+              </button>
+              <button class="investment-choice" type="button" data-investment="Coins">
+                <strong>Coins</strong><span>Choose digital assets and crypto projects.</span><small>Higher volatility</small>
+              </button>
+              <button class="investment-choice" type="button" data-investment="Stocks">
+                <strong>Stocks</strong><span>Invest in listed public companies.</span><small>Market based</small>
+              </button>
+              <button class="investment-choice" type="button" data-investment="Bonds">
+                <strong>Bonds</strong><span>Seek predictable income from debt markets.</span><small>Income focused</small>
+              </button>
+              <button class="investment-choice" type="button" data-investment="CDs">
+                <strong>CDs</strong><span>Lock funds for a fixed term and rate.</span><small>Lower volatility</small>
+              </button>
+            </div>
+            <p class="investment-selection" id="investmentSelection">Choose an option to begin.</p>
+            <div class="company-investment-setup" id="companyInvestmentSetup" hidden>
+              <div class="company-path-tabs" role="tablist" aria-label="Company investment path">
+                <button class="company-path is-active" type="button" data-company-path="existing">Choose existing company</button>
+                <button class="company-path" type="button" data-company-path="register">Add Company</button>
+              </div>
+              <div class="company-path-panel" id="existingCompanyPanel">
+                <label>Company<select id="existingCompany">
+                  <option value="Caribbean Renewables Ltd">Caribbean Renewables Ltd</option>
+                  <option value="Harbor Technology Group">Harbor Technology Group</option>
+                  <option value="Island Foods Co.">Island Foods Co.</option>
+                </select></label>
+              </div>
+              <form class="company-path-panel" id="registerCompanyPanel" hidden>
+                <div class="company-form-grid">
+                  <label>Registered business name<input id="companyName" type="text" required /></label>
+                  <label>Registration number<input id="companyRegistration" type="text" required /></label>
+                  <label>Business email<input id="companyEmail" type="email" required /></label>
+                  <label>Business phone<input id="companyPhone" type="tel" required /></label>
+                  <label class="company-field-wide">Registered business address<input id="companyAddress" type="text" required /></label>
+                  <label>Country of registration<input id="companyCountry" type="text" required /></label>
+                  <label>Business type<select id="companyType"><option>Corporation</option><option>Limited company</option><option>Partnership</option><option>Sole proprietor</option></select></label>
+                  <label class="company-field-wide">Business description<textarea id="companyDescription" rows="4" placeholder="Describe what your business does and the products or services it provides." required></textarea></label>
+                  <label class="company-field-wide">Why are you looking for investors?<textarea id="companyInvestorPurpose" rows="4" placeholder="Explain how investment will support your business." required></textarea></label>
+                  <label class="company-field-wide">Contract document<textarea id="companyContractDocument" rows="8" placeholder="Create your contract here. Include the parties, investment amount, ownership or repayment terms, responsibilities, risks, and signatures to be reviewed by qualified legal counsel." required></textarea></label>
+                </div>
+                <label class="contract-check"><input id="companyContractAgreement" type="checkbox" required /> I agree to create and uphold the investment contract, provide accurate business information, and accept legal review before funds are allocated.</label>
+              </form>
+              <div class="company-investment-terms">
+                <label>Investment amount<input id="companyInvestmentAmount" type="number" min="1" step="0.01" placeholder="Amount in USD" required /></label>
+                <label>Investment term<select id="companyInvestmentTerm"><option value="12 months">12 months</option><option value="24 months">24 months</option><option value="36 months">36 months</option><option value="60 months">60 months</option></select></label>
+              </div>
+              <p class="contract-note">A contract summary is created for your review. This demo does not provide legal advice or execute a binding legal agreement.</p>
+            </div>
+            <button class="btn btn-primary" id="startInvestmentBtn" type="button" disabled>Start investment</button>
           </div>
 
           <div class="payment-methods card-glass" id="paymentMethodsSection" hidden>
@@ -164,6 +228,38 @@
               </div>
             </div>
 
+            <div class="bank-connection-picker">
+              <div class="form-heading">
+                <h4>Choose your bank</h4>
+                <p>Select your region and bank, then choose a secure online connection or enter details manually.</p>
+              </div>
+              <div class="bank-picker-grid">
+                <label>Region<select id="bankRegion">
+                  <option value="caribbean">Caribbean</option>
+                  <option value="usa">United States of America</option>
+                  <option value="uk">United Kingdom</option>
+                </select></label>
+                <label>Bank<select id="bankProvider">
+                  <optgroup label="Caribbean">
+                    <option>Bank of Jamaica</option><option>National Commercial Bank Jamaica</option><option>Scotiabank Jamaica</option><option>FirstCaribbean International Bank</option><option>CIBC Caribbean</option><option>RBC Royal Bank Caribbean</option><option>Republic Bank</option><option>JMMB Bank</option><option>Bank of Trinidad and Tobago</option><option>FirstBank Puerto Rico</option><option>Bank of Saint Lucia</option><option>Republic Bank Barbados</option><option>Butterfield Bank</option><option>Republic Bank Guyana</option>
+                  </optgroup>
+                  <optgroup label="United States of America" hidden>
+                    <option>JPMorgan Chase</option><option>Bank of America</option><option>Wells Fargo</option><option>Citibank</option><option>U.S. Bank</option><option>PNC Bank</option><option>Truist</option><option>Capital One</option><option>TD Bank USA</option><option>Goldman Sachs</option>
+                  </optgroup>
+                  <optgroup label="United Kingdom" hidden>
+                    <option>Barclays</option><option>HSBC UK</option><option>Lloyds Bank</option><option>NatWest</option><option>Royal Bank of Scotland</option><option>Halifax</option><option>Nationwide Building Society</option><option> Santander UK</option><option>Monzo</option><option>Starling Bank</option>
+                  </optgroup>
+                </select></label>
+              </div>
+              <div class="bank-connect-tabs"><button class="bank-connect-tab is-active" type="button" data-bank-mode="online">Secure online connection</button><button class="bank-connect-tab" type="button" data-bank-mode="manual">Enter manually</button></div>
+            </div>
+
+            <form class="payment-form bank-online-form" id="bankOnlineForm" hidden>
+              <div class="form-heading"><h4>Secure online bank connection</h4><p>You will be redirected to your bank's secure authorization page. Makings does not collect or store your bank password.</p></div>
+              <div class="online-bank-summary"><strong id="onlineBankName">Bank of Jamaica</strong><span>Secure authorization required</span></div>
+              <div class="form-actions"><button class="btn btn-primary" type="submit">Continue to secure bank login</button><button class="btn btn-ghost" type="button" data-close-form="bankOnlineForm">Cancel</button></div>
+            </form>
+
             <form class="payment-form" id="bankAccountForm" hidden>
               <div class="form-heading">
                 <h4>Bank account details</h4>
@@ -174,15 +270,7 @@
                   Bank
                   <select id="bankName" name="bankName" required>
                     <option value="">Choose your bank</option>
-                    <option>Bank of Jamaica</option>
-                    <option>Scotiabank Caribbean</option>
-                    <option>FirstCaribbean</option>
-                    <option>National Commercial Bank</option>
-                    <option>CIBC Caribbean</option>
-                    <option>RBC Caribbean</option>
-                    <option>Republic Bank</option>
-                    <option>JMMB</option>
-                    <option>Other bank</option>
+                    <option>Bank of Jamaica</option><option>National Commercial Bank Jamaica</option><option>Scotiabank Jamaica</option><option>FirstCaribbean International Bank</option><option>CIBC Caribbean</option><option>RBC Royal Bank Caribbean</option><option>Republic Bank</option><option>JMMB Bank</option><option>Bank of Trinidad and Tobago</option><option>FirstBank Puerto Rico</option><option>Bank of Saint Lucia</option><option>Republic Bank Barbados</option><option>Butterfield Bank</option><option>Republic Bank Guyana</option><option>JPMorgan Chase</option><option>Bank of America</option><option>Wells Fargo</option><option>Citibank</option><option>U.S. Bank</option><option>PNC Bank</option><option>Truist</option><option>Capital One</option><option>TD Bank USA</option><option>Goldman Sachs</option><option>Barclays</option><option>HSBC UK</option><option>Lloyds Bank</option><option>NatWest</option><option>Royal Bank of Scotland</option><option>Halifax</option><option>Nationwide Building Society</option><option>Santander UK</option><option>Monzo</option><option>Starling Bank</option>
                   </select>
                 </label>
                 <label>
@@ -515,7 +603,7 @@
 
     <div id="toast" class="toast" aria-live="polite">Welcome to Makings Treasury.</div>
 
-    <script src="script.js"></script>
+    <script src="files if needed/script.js"></script>
     <script src="auth.js"></script>
     <script>
       const atmLocationInput = document.getElementById('atmLocationInput');
@@ -572,6 +660,96 @@
       });
 
       updateMapForLocation();
+
+      const investmentBtn = document.getElementById('investmentBtn');
+      const investmentPanel = document.getElementById('investmentPanel');
+      const closeInvestmentBtn = document.getElementById('closeInvestmentBtn');
+      const investmentSelection = document.getElementById('investmentSelection');
+      const startInvestmentBtn = document.getElementById('startInvestmentBtn');
+      const companyInvestmentSetup = document.getElementById('companyInvestmentSetup');
+      const existingCompanyPanel = document.getElementById('existingCompanyPanel');
+      const registerCompanyPanel = document.getElementById('registerCompanyPanel');
+      const existingCompany = document.getElementById('existingCompany');
+      const companyRegistrationForm = document.getElementById('registerCompanyPanel');
+      const companyInvestmentAmount = document.getElementById('companyInvestmentAmount');
+      const companyInvestmentTerm = document.getElementById('companyInvestmentTerm');
+      let selectedInvestment = '';
+      let selectedCompanyPath = 'existing';
+
+      investmentBtn.addEventListener('click', () => {
+        investmentPanel.hidden = false;
+        investmentPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+
+      closeInvestmentBtn.addEventListener('click', () => {
+        investmentPanel.hidden = true;
+      });
+
+      document.querySelectorAll('[data-investment]').forEach((choice) => {
+        choice.addEventListener('click', () => {
+          selectedInvestment = choice.dataset.investment;
+          document.querySelectorAll('[data-investment]').forEach((item) => item.classList.toggle('is-selected', item === choice));
+          investmentSelection.textContent = `${selectedInvestment} selected. Review your choice, then start your investment.`;
+          companyInvestmentSetup.hidden = selectedInvestment !== 'Company';
+          startInvestmentBtn.disabled = false;
+        });
+      });
+
+      const savedCompanies = JSON.parse(localStorage.getItem('makingsRegisteredCompanies') || '[]');
+      savedCompanies.forEach((company) => {
+        const option = document.createElement('option');
+        option.value = company.name;
+        option.textContent = `${company.name} (registered by you)`;
+        existingCompany.appendChild(option);
+      });
+
+      document.querySelectorAll('[data-company-path]').forEach((pathButton) => {
+        pathButton.addEventListener('click', () => {
+          selectedCompanyPath = pathButton.dataset.companyPath;
+          document.querySelectorAll('[data-company-path]').forEach((item) => item.classList.toggle('is-active', item === pathButton));
+          existingCompanyPanel.hidden = selectedCompanyPath !== 'existing';
+          registerCompanyPanel.hidden = selectedCompanyPath !== 'register';
+        });
+      });
+
+      startInvestmentBtn.addEventListener('click', () => {
+        if (!selectedInvestment) return;
+        const amount = Number(companyInvestmentAmount.value);
+        let companyDetails = null;
+        if (selectedInvestment === 'Company') {
+          if (!amount || amount < 1 || !companyInvestmentTerm.value) {
+            investmentSelection.textContent = 'Enter an investment amount and term before starting.';
+            return;
+          }
+          if (selectedCompanyPath === 'register') {
+            if (!companyRegistrationForm.reportValidity()) return;
+            companyDetails = {
+              name: document.getElementById('companyName').value.trim(),
+              registrationNumber: document.getElementById('companyRegistration').value.trim(),
+              email: document.getElementById('companyEmail').value.trim(),
+              phone: document.getElementById('companyPhone').value.trim(),
+              address: document.getElementById('companyAddress').value.trim(),
+              country: document.getElementById('companyCountry').value.trim(),
+              type: document.getElementById('companyType').value,
+              description: document.getElementById('companyDescription').value.trim(),
+              investorPurpose: document.getElementById('companyInvestorPurpose').value.trim(),
+              contractDocument: document.getElementById('companyContractDocument').value.trim(),
+              contractAcknowledged: document.getElementById('companyContractAgreement').checked
+            };
+            const companies = JSON.parse(localStorage.getItem('makingsRegisteredCompanies') || '[]');
+            companies.push(companyDetails);
+            localStorage.setItem('makingsRegisteredCompanies', JSON.stringify(companies));
+          } else {
+            companyDetails = { name: existingCompany.value, contractAcknowledged: true };
+          }
+        }
+        const investment = { type: selectedInvestment, amount: amount || null, term: selectedInvestment === 'Company' ? companyInvestmentTerm.value : null, company: companyDetails, createdAt: new Date().toISOString() };
+        localStorage.setItem('makingsSelectedInvestment', JSON.stringify(investment));
+        const toast = document.getElementById('toast');
+        toast.textContent = `${selectedInvestment} investment started. Your Treasury plan is ready for review.`;
+        toast.classList.add('show');
+        window.setTimeout(() => toast.classList.remove('show'), 3200);
+      });
     </script>
   </body>
 </html>
