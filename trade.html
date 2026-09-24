@@ -3,10 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Makings | Trade - Live Crypto Markets</title>
+    <title>BillionairesXchange | Trade Center</title>
+    <link rel="icon" type="APP-Logo.png" href="APP-logo.png" />
     <meta
       name="description"
-      content="Makings Trade Center - Live crypto market data, real-time charts, and secure trading execution with multiple asset classes."
+      content="BillionairesXchange Trade Center - Track assets, manage paper positions, and review execution activity."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -19,9 +20,9 @@
   <body>
     <header class="topbar">
       <div class="brand-wrap">
-        <div class="brand-mark">M</div>
+        <img src="BillionairesXchange-Logo.png" alt="BillionairesXchange-Logo.png" width="100" />
         <div>
-          <p class="brand-name">Makings</p>
+          <p class="brand-name">BillionairesXchange</p>
           <small>Crypto Trading & Investment</small>
         </div>
       </div>
@@ -49,8 +50,6 @@
             <h2>Crypto, stocks, commodities, and brand markets</h2>
           </div>
           <div class="market-header-actions">
-            <button id="indicatorButton" class="indicator-button" type="button">Indicator</button>
-            <button id="marketCreateIndicator" class="btn btn-primary" type="button">+ Create</button>
             <button class="btn btn-ghost">View all</button>
           </div>
         </div>
@@ -105,72 +104,46 @@
           </aside>
         </div>
 
-        <div id="indicatorPanel" class="indicator-panel card-glass" hidden>
-          <div class="indicator-panel-head">
-            <div><span class="eyebrow">Indicator workspace</span><h3>Find and tune indicators</h3></div>
-            <button id="closeIndicatorPanel" class="text-button" type="button">Close</button>
-          </div>
-          <div class="indicator-panel-actions">
-            <label class="search-field indicator-search"><span>Search</span><input id="indicatorSearch" type="search" placeholder="Find by indicator name" /></label>
-            <button id="openIndicatorBuilder" class="btn btn-primary" type="button">+ Create indicator</button>
-            <button id="openLibrary" class="text-button" type="button">Import JSON</button>
-          </div>
-          <div id="indicatorLibrary" class="indicator-library"></div>
-        </div>
-
-        <div class="market-table-wrap card-glass">
-          <div class="table-header">
-            <div>
-              <span class="eyebrow">Live crypto market</span>
-              <h3>Top movers right now</h3>
-            </div>
-            <div class="table-badges">
-              <span>24H volume</span>
-              <span>Market cap</span>
-            </div>
-          </div>
-
-          <table class="market-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Asset</th>
-                <th>Price</th>
-                <th>24h</th>
-                <th>Volume</th>
-                <th>Market cap</th>
-              </tr>
-            </thead>
-            <tbody id="marketTableBody"></tbody>
-          </table>
-        </div>
       </section>
 
       <section class="trade-section section-shell" id="trade">
-        <div class="section-head terminal-heading">
-          <div>
-            <span class="eyebrow">Binance market terminal</span>
-            <h2>Trade spot, margin, and futures from one workspace</h2>
-            <p class="section-note">Live public market data. Orders below run in paper mode until a secure server-side exchange connection is enabled.</p>
-          </div>
-          <span class="live-status"><i></i><span id="binanceConnection">Connecting to Binance</span></span>
-        </div>
-
-        <div class="terminal-grid">
-          <div class="terminal-main card-glass">
-            <div class="terminal-toolbar">
-              <div class="symbol-picker"><label for="terminalSymbol">Market</label><select id="terminalSymbol"><option value="btcusdt">BTC/USDT</option><option value="ethusdt">ETH/USDT</option><option value="solusdt">SOL/USDT</option><option value="bnbusdt">BNB/USDT</option><option value="xrpusdt">XRP/USDT</option><option value="dogeusdt">DOGE/USDT</option></select></div>
-              <div class="market-quote"><strong id="terminalPrice">--</strong><span id="terminalChange">--</span></div>
-              <div class="timeframe-tabs" role="tablist" aria-label="Chart timeframe"><button class="is-active" data-timeframe="1m" type="button">1m</button><button data-timeframe="5m" type="button">5m</button><button data-timeframe="15m" type="button">15m</button><button data-timeframe="1h" type="button">1h</button><button data-timeframe="4h" type="button">4h</button></div>
+        <div class="card-glass positions-chart-panel">
+          <div class="positions-chart-header">
+            <div>
+              <span class="eyebrow">Position market view</span>
+              <h3 id="positionsChartTitle">XRP / USD</h3>
+              <div class="positions-market-row">
+                <label class="positions-market-selector">
+                  <span>Choose market</span>
+                  <select id="positionsMarketSelect">
+                    <option value="BTC">BTC / USD</option>
+                    <option value="XRP">XRP / USD</option>
+                    <option value="BNB">BNB / USD</option>
+                    <option value="ETH">ETH / USD</option>
+                  </select>
+                </label>
+                <div class="positions-tools-menu">
+                  <button class="positions-tools-button" id="positionsToolsButton" type="button" aria-expanded="false" aria-controls="positionsToolsOptions">Tools</button>
+                  <div class="positions-tools-options" id="positionsToolsOptions" hidden>
+                    <button type="button" data-chart-tool="import">Import Indicator</button>
+                    <button type="button" data-chart-tool="create">Create Indicator</button>
+                    <button type="button" data-chart-tool="custom-candles">Custom Candlesticks</button>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="terminal-chart-shell"><canvas id="terminalCanvas" width="1200" height="460" aria-label="Live Binance candlestick chart"></canvas><div class="chart-loading" id="terminalChartStatus">Loading live candles...</div></div>
-            <div class="indicator-strip"><div class="indicator-title"><span>Indicators</span><button id="openIndicatorBuilder" type="button">+ Create</button></div><div id="activeIndicators" class="active-indicators"></div></div>
+            <strong id="positionsChartPrice">--</strong>
           </div>
-
+          <div class="positions-chart-wrap">
+            <canvas id="positionsCandleChart" aria-label="Candlestick chart with timestamps for the selected market"></canvas>
+            <p id="positionsChartStatus">Loading market candles...</p>
+            <button class="positions-chart-resizer" id="positionsChartResizer" type="button" aria-label="Resize chart" title="Drag to resize chart"></button>
+          </div>
+          <div class="positions-chart-actions" role="group" aria-label="Trade actions">
+            <button class="btn positions-buy-button" id="positionsBuyButton" type="button">Buy</button>
+            <button class="btn positions-sell-button" id="positionsSellButton" type="button">Sell</button>
+          </div>
         </div>
-
-        <aside class="order-panel card-glass market-order-ticket"><div class="order-header"><div><span class="eyebrow">Order ticket</span><h3>Paper execution</h3></div><span class="mode-pill">SIM</span></div><div class="trade-modes" role="tablist" aria-label="Trading product"><button class="is-active" data-trade-mode="spot" type="button">Spot</button><button data-trade-mode="margin" type="button">Margin</button><button data-trade-mode="futures" type="button">Futures</button></div><div class="side-toggle"><button class="is-active buy-side" data-order-side="BUY" type="button">Buy / Long</button><button data-order-side="SELL" type="button">Sell / Short</button></div><form id="terminalOrderForm" class="order-form"><label>Order type<select id="orderType"><option value="MARKET">Market</option><option value="LIMIT">Limit</option></select></label><label>Price (USDT)<input id="orderPrice" type="number" min="0" step="any" placeholder="Market price" /></label><label>Quantity<input id="orderQuantity" type="number" min="0.000001" step="any" value="0.01" required /></label><div class="order-bracket-grid"><label>Stop loss<input id="stopLoss" type="number" min="0" step="any" placeholder="Optional" /></label><label>Take profit<input id="takeProfit" type="number" min="0" step="any" placeholder="Optional" /></label></div><div class="order-estimate"><span>Estimated value</span><strong id="orderEstimate">$0.00</strong></div><button class="btn btn-primary order-submit" type="submit">Place paper order</button><small class="form-hint">Protective exits are monitored in this browser for paper trades.</small></form></aside>
-
         <div class="terminal-lower-grid"><div class="card-glass data-panel"><div class="panel-title"><div><span class="eyebrow">Positions</span><h3>Open positions</h3></div><strong id="paperBalance">10,000.00 USDT</strong></div><div id="positionsList" class="empty-state">No open paper positions.</div></div></div>
         <div class="card-glass data-panel orders-history"><div class="panel-title"><div><span class="eyebrow">Execution log</span><h3>Recent orders</h3></div><button class="text-button" id="clearOrders" type="button">Clear</button></div><div id="ordersList" class="orders-list"><div class="empty-state">Your paper orders will appear here.</div></div></div>
       </section>
@@ -209,10 +182,10 @@
     </main>
 
     <footer class="site-footer">
-      <p>© 2026 Makings | Crypto, investment, and secure digital trading.</p>
+      <p>© 2024 BillionairesXchange | Crypto, investment, and secure digital trading.</p>
     </footer>
 
-    <div id="toast" class="toast" aria-live="polite">Welcome to Makings Trade Center.</div>
+    <div id="toast" class="toast" aria-live="polite">Welcome to BillionairesXchange Trade Center.</div>
 
     <script src="files if needed/script.js"></script>
     <script src="auth.js"></script>

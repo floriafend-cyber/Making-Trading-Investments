@@ -3,15 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Makings | Profile</title>
+    <title>BillionairesXchange | Profile</title>
+    <link rel="icon" type="APP-Logo.png" href="APP-logo.png" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <header class="topbar">
       <div class="brand-wrap">
-        <div class="brand-mark">M</div>
+         <img src="BillionairesXchange-Logo.png" alt="BillionairesXchange-Logo.png" width="100" />
         <div>
-          <p class="brand-name">Makings</p>
+          <p class="brand-name">BillionairesXchange</p>
           <small>Crypto Trading & Investment</small>
         </div>
       </div>
@@ -32,7 +33,7 @@
           <div>
             <span class="eyebrow">Account center</span>
             <h1>Your profile</h1>
-            <p>Review the account details saved for your Makings account.</p>
+            <p>Review the account details saved for your BXC account.</p>
           </div>
         </div>
         <div id="profileContent" class="profile-grid"></div>
@@ -40,7 +41,7 @@
     </main>
 
     <footer class="site-footer">
-      <p>© 2026 Makings | Crypto, investment, and secure digital trading.</p>
+      <p>© 2024 BillionairesXchange | Crypto, investment, and secure digital trading.</p>
     </footer>
 
     <script src="auth.js"></script>
@@ -85,7 +86,115 @@
             </div>
             <button class="btn btn-primary profile-logout" type="button">Log out</button>
           </div>
+          <section class="profile-media card-glass">
+            <div class="profile-media-heading">
+              <div>
+                <span class="eyebrow">Profile media</span>
+                <h2>Share your world</h2>
+                <p>Upload a photo or video for your community to react to.</p>
+              </div>
+            </div>
+            <form class="profile-media-form" id="profileMediaForm">
+              <textarea id="profileMediaCaption" maxlength="300" placeholder="Write a caption..."></textarea>
+              <div class="profile-media-actions">
+                <label class="profile-media-label" for="profileMediaInput">Choose photo or video</label>
+                <input id="profileMediaInput" type="file" accept="image/*,video/*" required />
+                <span id="profileMediaFileName">No media selected</span>
+                <button class="btn btn-primary" type="submit">Post media</button>
+              </div>
+            </form>
+            <div class="profile-media-feed" id="profileMediaFeed" aria-live="polite"></div>
+          </section>
         `;
+
+        const mediaForm = document.getElementById('profileMediaForm');
+        const mediaInput = document.getElementById('profileMediaInput');
+        const mediaCaption = document.getElementById('profileMediaCaption');
+        const mediaFileName = document.getElementById('profileMediaFileName');
+        const mediaFeed = document.getElementById('profileMediaFeed');
+        const mediaKey = `profileMedia:${user.username}`;
+        const reactionOptions = ['❤️', '🔥', '👏', '🚀', '😍'];
+        let mediaPosts = JSON.parse(localStorage.getItem(mediaKey) || '[]');
+
+        function saveMedia() {
+          localStorage.setItem(mediaKey, JSON.stringify(mediaPosts));
+        }
+
+        function renderMedia() {
+          mediaFeed.replaceChildren();
+          if (!mediaPosts.length) {
+            const empty = document.createElement('p');
+            empty.className = 'profile-media-empty';
+            empty.textContent = 'Your photo and video posts will appear here.';
+            mediaFeed.appendChild(empty);
+            return;
+          }
+
+          [...mediaPosts].reverse().forEach((post) => {
+            const article = document.createElement('article');
+            article.className = 'profile-media-post';
+            const meta = document.createElement('small');
+            meta.className = 'profile-media-meta';
+            meta.textContent = new Date(post.createdAt).toLocaleString();
+            article.appendChild(meta);
+            if (post.caption) {
+              const caption = document.createElement('p');
+              caption.className = 'profile-media-caption';
+              caption.textContent = post.caption;
+              article.appendChild(caption);
+            }
+            const media = document.createElement(post.mediaType === 'video' ? 'video' : 'img');
+            media.className = 'profile-media-content';
+            media.src = post.media;
+            media.controls = post.mediaType === 'video';
+            media.alt = post.mediaType === 'video' ? 'Profile video' : 'Profile photo';
+            article.appendChild(media);
+            const reactions = document.createElement('div');
+            reactions.className = 'profile-reactions';
+            reactionOptions.forEach((emoji) => {
+              const button = document.createElement('button');
+              button.type = 'button';
+              button.className = `profile-reaction${post.reactions[emoji] ? ' is-active' : ''}`;
+              button.textContent = `${emoji} ${post.reactions[emoji] || ''}`.trim();
+              button.setAttribute('aria-label', `React with ${emoji}`);
+              button.addEventListener('click', () => {
+                post.reactions[emoji] = post.reactions[emoji] ? 0 : 1;
+                saveMedia();
+                renderMedia();
+              });
+              reactions.appendChild(button);
+            });
+            article.appendChild(reactions);
+            mediaFeed.appendChild(article);
+          });
+        }
+
+        mediaInput.addEventListener('change', () => {
+          mediaFileName.textContent = mediaInput.files[0]?.name || 'No media selected';
+        });
+
+        mediaForm.addEventListener('submit', (event) => {
+          event.preventDefault();
+          const file = mediaInput.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.addEventListener('load', () => {
+            mediaPosts.push({
+              caption: mediaCaption.value.trim(),
+              media: reader.result,
+              mediaType: file.type.startsWith('video/') ? 'video' : 'image',
+              reactions: {},
+              createdAt: Date.now()
+            });
+            saveMedia();
+            mediaForm.reset();
+            mediaFileName.textContent = 'No media selected';
+            renderMedia();
+          });
+          reader.readAsDataURL(file);
+        });
+
+        renderMedia();
 
         profileContent.querySelector('.profile-logout').addEventListener('click', () => {
           window.MakingsAuth.clearCurrentUser();
